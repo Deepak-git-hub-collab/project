@@ -1,0 +1,40 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local databases (large SQLite ledgers exceed GitHub's 100MB limit)
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.log
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor & IDE configs
+.vscode/
+.idea/
+
+# Development scratch scripts & temporary outputs
+scratch/
+*.log

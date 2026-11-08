@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="ShieldPlus AI - Intelligent Real-Time Financial Fraud Detection & Anomaly Intelligence System. Sub-millisecond scoring, machine learning isolation, velocity checks, and omnichannel medium tracking.">
+  <title>ShieldPlus AI &mdash; Intelligent Fraud Detection System</title>
+
+  <!-- Typography: Plus Jakarta Sans (Sleek Modern Sans) & JetBrains Mono (Tabular Data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Design System & Dashboard CSS - 3D Charcoal & Titanium Theme -->
+  <link rel="stylesheet" href="css/design-system.css?v=14.0">
+  <link rel="stylesheet" href="css/dashboard.css?v=14.0">
+</head>
+
+<body class="theme-dark">
+
+  <div class="app-layout">
+    <!-- Top Navigation Header -->
+    <header class="top-nav" id="mainHeader">
+      <div class="brand-section">
+        <div class="brand-logo-icon" id="brandLogo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <h1>ShieldPlus AI</h1>
+          <p>Intelligent Fraud Detection System</p>
+        </div>
+      </div>
+
+      <!-- Center Search Bar -->
+      <div class="nav-search-wrap">
+        <div class="nav-search-bar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="globalSearchInput" placeholder="Search Transactions or Users" autocomplete="off">
+        </div>
+      </div>
+
+      <!-- Right Actions: Status Pill, Notifications, User Pill, Settings -->
+      <div class="nav-actions-right">
+        <div class="live-status-pill" id="liveMonitoringPill">
+          <span class="live-status-dot"></span>
+          <span>Live Monitoring</span>
+        </div>
+
+        <button class="nav-icon-btn" id="btnNotification" title="Notification Status (Click to open active alerts)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          <span class="nav-badge-count" id="notificationCount" style="display: none !important;"></span>
+        </button>
+
+        <!-- Dynamic User Authentication & Profile Dropdown -->
+        <div class="nav-auth-wrapper" id="navAuthWrapper">
+          <div class="user-profile-pill" id="userProfileBtn" title="Operator Profile">
+            <div class="user-avatar" id="navAdminAvatar">
+              <div class="user-initial-badge anon">A</div>
+            </div>
+            <div class="user-info">
+              <span class="user-name" id="navAdminName">Anonymous</span>
+              <span class="user-role" id="navAdminRole">FinSecure Inc. <span style="font-size: 0.65rem; color: #64748B;">▾</span></span>
+            </div>
+          </div>
+
+          <!-- Sign-In button shown when in anonymous mode -->
+          <button class="btn-admin-login-pill" id="btnNavLogin" style="display: inline-flex;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <span>Sign In</span>
+          </button>
+
+          <!-- User Dropdown Menu -->
+          <div class="admin-dropdown-menu" id="adminDropdownMenu">
+            <div class="admin-dropdown-header">
+              <div class="dropdown-avatar" id="dropdownAvatar">
+                <div class="user-initial-badge anon">A</div>
+              </div>
+              <div class="dropdown-user-details">
+                <span class="dropdown-user-name" id="dropdownAdminName">Anonymous User</span>
+                <span class="dropdown-user-email" id="dropdownAdminEmail">anonymous@shieldplus.local</span>
+                <span class="dropdown-clearance-pill" id="dropdownAdminClearance">Unauthenticated • Guest Mode</span>
+              </div>
+            </div>
+
+            <div class="admin-dropdown-items">
+              <button class="admin-menu-item" id="btnMenuProfile">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span>Security Clearance &amp; Profile</span>
+              </button>
+
+              <button class="admin-menu-item" id="btnMenuAuditLog">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+                <span>Level 4 Authority Audit Center</span>
+              </button>
+
+              <button class="admin-menu-item" id="btnMenuCreateAccount">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="8.5" cy="7" r="4" />
+                  <line x1="20" y1="8" x2="20" y2="14" />
+                  <line x1="23" y1="11" x2="17" y2="11" />
+                </svg>
+                <span>Create New Account</span>
+              </button>
+
+              <button class="admin-menu-item" id="btnMenuSwitchAccount">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="1 4 1 10 7 10" />
+                  <polyline points="23 20 23 14 17 14" />
+                  <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" />
+                </svg>
+                <span>Sign In / Switch Account</span>
+              </button>
+
+              <button class="admin-menu-item admin-menu-item-danger" id="btnMenuLogout">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                <span>Sign Out of Console</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-icon-btn" id="btnSettings" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+        </button>
+
+        <button id="btnAudioToggle" class="nav-icon-btn" title="Toggle Audio Radar alerts">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- App Body: Sidebar + Main Content Area -->
+    <div class="app-body">
+      <!-- Left Sidebar Navigation -->
+      <aside class="app-sidebar">
+        <nav class="sidebar-menu">
+          <a class="sidebar-item active" href="#dashboard">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" />
+              </svg>
+              <span>Dashboard</span>
+            </div>
+          </a>
+
+          <a class="sidebar-item" href="#transactions">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              <span>Transactions</span>
+            </div>
+          </a>
+
+          <a class="sidebar-item" href="#alerts" id="sidebarFraudAlertsLink">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              <span>Fraud Alerts</span>
+            </div>
+            <span class="sidebar-badge" id="sidebarAlertsCount" style="display: none !important;"></span>
+          </a>
+
+          <a class="sidebar-item" href="#analytics">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+              <span>Analytics</span>
+            </div>
+            <span class="sidebar-chevron">&#x203A;</span>
+          </a>
+
+          <a class="sidebar-item" href="#users">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <span>Users</span>
+            </div>
+            <span class="sidebar-chevron">&#x203A;</span>
+          </a>
+
+          <a class="sidebar-item" href="#chargebacks">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="5" width="20" height="14" rx="2" />
+                <line x1="2" y1="10" x2="22" y2="10" />
+              </svg>
+              <span>Chargebacks</span>
+            </div>
+            <span class="sidebar-chevron">&#x203A;</span>
+          </a>
+
+          <a class="sidebar-item" href="#reports">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+              <span>Reports</span>
+            </div>
+            <span class="sidebar-chevron">&#x203A;</span>
+          </a>
+
+          <a class="sidebar-item" href="#settings">
+            <div class="sidebar-item-content">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+              <span>Settings</span>
+            </div>
+            <span class="sidebar-chevron">&#x203A;</span>
+          </a>
+        </nav>
+
+        <!-- Sidebar Footer: Stream Speed Control & Mode -->
+        <div class="sidebar-footer">
+          <div
+            style="display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748B;">
+            <span>Engine: Isolation Forest</span>
+            <span class="mono" style="color: #34D399; font-weight: 700;">ACTIVE</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="range" id="sliderStreamRate" min="1" max="15" step="0.5" value="3.0"
+              style="flex: 1; height: 3px;">
+            <span id="txtStreamRate" class="mono" style="font-size: 0.7rem; color: #FFFFFF; font-weight: 700;">3.0
+              TPS</span>
+          </div>
+          <button id="btnStreamToggle" class="sim-chip-btn" style="width: 100%; text-align: center;"
+            data-running="true">&#x23F8; Pause Feed</button>
+        </div>
+      </aside>
+
+      <!-- Main Application Content Area -->
+      <main class="app-content">
+        <!-- 4 Top KPI Cards Row -->
+        <section class="kpi-row">
+          <!-- Card 1: Total Transactions -->
+          <div class="glass-panel kpi-card" id="cardTotalTx">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Total Transactions</span>
+              <div class="kpi-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 20v-6M6 20V10M18 20V4" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-card-body">
+              <div class="kpi-card-value mono" id="metricTotalTx">117,189</div>
+              <div class="kpi-card-footer">
+                <span class="kpi-trend-positive">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="18 15 12 9 6 15" />
+                  </svg>
+                  <span id="metricTotalTxTrend">+ 18%</span> <span id="metricTotalTxSub"
+                    style="color: #64748B; font-weight: 400; margin-left: 4px;">vs Last 30 Days</span>
+                </span>
+                <svg width="58" height="18" viewBox="0 0 60 20" fill="none">
+                  <path d="M2 14 Q 15 6, 25 10 T 45 4 T 58 8" stroke="#38BDF8" stroke-width="2" fill="none" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Fraud Detected -->
+          <div class="glass-panel kpi-card" id="cardFraudDetected">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Fraud Detected</span>
+              <div class="kpi-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+                  <path d="M12 20v-6M6 20V10M18 20V4" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-card-body">
+              <div style="display: flex; align-items: baseline; gap: 10px;">
+                <span class="kpi-card-value mono" id="metricFraudCount">13,487</span>
+                <span class="risk-tag risk-tag-high" id="metricFraudRate" style="font-size: 0.7rem; padding: 1px 6px;">+
+                  21%</span>
+              </div>
+              <div class="kpi-progress-bar">
+                <div class="kpi-progress-fill-red" style="width: 21%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Blocked Amount -->
+          <div class="glass-panel kpi-card" id="cardPreventedLoss">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Blocked Amount</span>
+              <div class="kpi-card-icon" id="cardLossIcon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-card-body">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 6px; min-width: 0;">
+                <span class="kpi-card-value mono" id="metricPreventedLoss" style="font-size: clamp(0.95rem, 1.35vw, 1.55rem); max-width: calc(100% - 70px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;">$8,881,085.06</span>
+                <span class="risk-tag risk-tag-high" id="metricPreventedLossTrend" style="font-size: 0.68rem; padding: 1px 6px; flex-shrink: 0;">&#x25BC; 76%</span>
+              </div>
+              <div class="kpi-progress-bar">
+                <div class="kpi-progress-fill-red" id="metricPreventedLossProgress" style="width: 76%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Accuracy Rate & Inference Latency -->
+          <div class="glass-panel kpi-card" id="cardAccuracyRate">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title" id="cardAccuracyTitle">Accuracy &amp; Latency</span>
+              <div class="kpi-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-card-body">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 6px;">
+                <span class="kpi-card-value mono" id="metricAccuracyRate">95.4%</span>
+                <span class="risk-tag risk-tag-low" id="metricLatencyBadge" style="font-size: 0.68rem; padding: 1px 6px; flex-shrink: 0;">&#x26A1; 12.4ms</span>
+              </div>
+              <div class="kpi-card-footer" style="margin-top: 2px;">
+                <span id="metricAccuracySubtitle" style="color: #64748B; font-weight: 500;">Inference Latency: 12.4ms</span>
+              </div>
+              <div class="kpi-progress-bar">
+                <div class="kpi-progress-fill-blue" id="metricAccuracyProgress" style="width: 95.4%;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Main Two-Column Layout (Center 2.2fr, Right 1fr) -->
+        <div class="dashboard-grid">
+          <!-- Center Column -->
+          <div class="center-column">
+            <!-- Real-Time Fraud Transactions Table Card -->
+            <section class="glass-panel table-card" id="sectionTransactions">
+              <div class="card-top">
+                <div class="card-heading">
+                  <span>Real-Time Fraud Transactions</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span id="txCountBadge" class="live-status-pill" style="font-size: 0.7rem; padding: 2px 8px;">LIVE
+                    FEED</span>
+                  <a class="card-link" id="btnViewAllTx">View All &rsaquo;</a>
+                </div>
+              </div>
+
+              <!-- Geographic Surveillance: Country & State Filter Toolbar -->
+              <div class="geo-filter-toolbar" id="geoFilterToolbar">
+                <div class="geo-filter-inputs">
+                  <div class="geo-select-wrap">
+                    <label for="selectCountryFilter" class="geo-select-label">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                          d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                      <span>Country:</span>
+                    </label>
+                    <select id="selectCountryFilter" class="geo-dropdown"
+                      title="Choose jurisdiction country to filter all data">
+                      <option value="ALL">&#x1F310; All Countries (Global Surveillance)</option>
+                      <option value="United States">&#x1F1FA;&#x1F1F8; United States</option>
+                      <option value="India">&#x1F1EE;&#x1F1F3; India</option>
+                      <option value="United Kingdom">&#x1F1EC;&#x1F1E7; United Kingdom</option>
+                      <option value="Japan">&#x1F1EF;&#x1F1F5; Japan</option>
+                      <option value="Germany">&#x1F1E9;&#x1F1EA; Germany</option>
+                      <option value="Canada">&#x1F1E8;&#x1F1E6; Canada</option>
+                      <option value="Australia">&#x1F1E6;&#x1F1FA; Australia</option>
+                      <option value="Brazil">&#x1F1E7;&#x1F1F7; Brazil</option>
+                      <option value="United Arab Emirates">&#x1F1E6;&#x1F1EA; United Arab Emirates</option>
+                      <option value="Singapore">&#x1F1F8;&#x1F1EC; Singapore</option>
+                      <option value="France">&#x1F1EB;&#x1F1F7; France</option>
+                    </select>
+                  </div>
+
+                  <div class="geo-select-wrap">
+                    <label for="selectStateFilter" class="geo-select-label">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <span>City / Region:</span>
+                    </label>
+                    <select id="selectStateFilter" class="geo-dropdown" title="Choose city or region">
+                      <option value="ALL">&#x1F4CD; All Cities &amp; Regions</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="geo-filter-actions">
+                  <span id="geoActiveScopeBadge" class="geo-scope-pill">&#x1F310; Global Jurisdiction</span>
+                  <button id="btnClearGeoFilter" class="btn-clear-geo" title="Reset to global overview"
+                    style="display: none;">&#x1F504; Reset Scope</button>
+                </div>
+              </div>
+
+              <!-- Payment Medium Chips Bar -->
+              <div class="platform-toolbar">
+                <div class="platform-chips-wrap">
+                  <span style="font-size: 0.7rem; color: #64748B; font-weight: 700; margin-right: 4px;">RAIL:</span>
+                  <button class="platform-chip active" data-medium="ALL">&#x1F310; All Mediums</button>
+                  <button class="platform-chip" data-medium="UPI">&#x26A1; UPI (Instant VPA)</button>
+                  <button class="platform-chip" data-medium="CARD">&#x1F4B3; Cards</button>
+                  <button class="platform-chip" data-medium="NET_BANKING">&#x1F3E6; Net Banking</button>
+                  <button class="platform-chip" data-medium="WALLET">&#x1F4F1; Wallets</button>
+                  <button class="platform-chip" data-medium="ATM_CASH">&#x1F3E7; ATM Cash</button>
+                  <button class="platform-chip" data-medium="CRYPTO">&#x1FA99; Crypto</button>
+                </div>
+
+                <!-- Feed Quick Status Filter Chips -->
+                <div class="filter-chips">
+                  <button class="chip-btn active" data-filter="ALL">All</button>
+                  <button class="chip-btn" data-filter="BLOCKED">&#x1F534; Blocked</button>
+                  <button class="chip-btn" data-filter="REVIEW">&#x1F7E1; Review</button>
+                  <button class="chip-btn" data-filter="APPROVED">&#x1F7E2; Approved</button>
+                </div>
+              </div>
+
+
+              <!-- Virtualized Table Scroll Container -->
+              <div class="table-scroll-container">
+                <table class="tx-table" id="transactionsTable">
+                  <thead>
+                    <tr>
+                      <th>TX_HASH</th>
+                      <th>USER / ENTITY</th>
+                      <th>ISO_RAIL / MEDIUM</th>
+                      <th>LOCATION (GEO)</th>
+                      <th id="thTableAmount">AMOUNT</th>
+                      <th>RISK_SCORE</th>
+                      <th>STATUS</th>
+                      <th>TRIAGE</th>
+                    </tr>
+                  </thead>
+                  <tbody id="txTableBody">
+                    <!-- Populated dynamically via WebSocket stream -->
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- Bottom Center Split: Activity Wave + AI Model Performance -->
+            <div class="bottom-center-split">
+              <!-- Transaction Activity Chart -->
+              <section class="glass-panel activity-card" id="sectionActivity">
+                <div class="activity-header">
+                  <div class="card-heading">
+                    <span>Transaction Activity</span>
+                    <span id="activityScopeHeading"
+                      style="font-size: 0.68rem; color: #38BDF8; font-weight: 700; margin-left: 8px;">(Global
+                      Jurisdiction)</span>
+                  </div>
+                  <div class="activity-segmented-tabs">
+                    <button class="segmented-tab active" data-timeframe="Daily">Daily</button>
+                    <button class="segmented-tab" data-timeframe="Weekly">Weekly</button>
+                    <button class="segmented-tab" data-timeframe="Monthly">Monthly</button>
+                  </div>
+                </div>
+
+                <div class="activity-legend">
+                  <div class="legend-item">
+                    <span class="legend-line-blue"></span>
+                    <span>Legitimate</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-line-red"></span>
+                    <span>Fraudulent</span>
+                  </div>
+                </div>
+
+                <div class="activity-chart-canvas-wrap">
+                  <canvas id="activityChartCanvas"></canvas>
+                </div>
+              </section>
+
+              <!-- AI Model Performance -->
+              <section class="glass-panel model-perf-card" id="sectionModelPerformance">
+                <div class="card-heading">
+                  <span>AI Model Performance</span>
+                </div>
+
+                <!-- Progress bars -->
+                <div class="perf-metrics-list">
+                  <div class="perf-metric-row">
+                    <div class="perf-metric-info">
+                      <span class="perf-metric-label">Accuracy</span>
+                      <span class="perf-metric-val mono" id="modelAccuracyVal">94.7%</span>
+                    </div>
+                    <div class="perf-progress-bar">
+                      <div class="perf-progress-fill" id="modelAccuracyFill" style="width: 94.7%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="perf-metric-row">
+                    <div class="perf-metric-info">
+                      <span class="perf-metric-label">Precision</span>
+                      <span class="perf-metric-val mono" id="modelPrecisionVal">92.3%</span>
+                    </div>
+                    <div class="perf-progress-bar">
+                      <div class="perf-progress-fill" id="modelPrecisionFill" style="width: 92.3%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="perf-metric-row">
+                    <div class="perf-metric-info">
+                      <span class="perf-metric-label">Recall</span>
+                      <span class="perf-metric-val mono" id="modelRecallVal">89.6%</span>
+                    </div>
+                    <div class="perf-progress-bar">
+                      <div class="perf-progress-fill" id="modelRecallFill" style="width: 89.6%;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Confusion Matrix -->
+                <div class="confusion-matrix-section">
+                  <div class="confusion-matrix-title">Confusion Matrix</div>
+                  <div class="confusion-grid">
+                    <div class="matrix-cell" id="cellTruePos">
+                      <span class="matrix-label">Actual \ Predicted</span>
+                      <span class="matrix-val-pos" id="matrixTruePos">True + 340</span>
+                    </div>
+                    <div class="matrix-cell" id="cellFalsePos">
+                      <span class="matrix-label">False +</span>
+                      <span class="matrix-val-neutral" id="matrixFalsePos">12</span>
+                    </div>
+                    <div class="matrix-cell" id="cellFalseNeg">
+                      <span class="matrix-label">False -</span>
+                      <span class="matrix-val-neg" id="matrixFalseNeg">18</span>
+                    </div>
+                    <div class="matrix-cell" id="cellTrueNeg">
+                      <span class="matrix-label">True -</span>
+                      <span class="matrix-val-neutral" id="matrixTrueNeg">930</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Buttons: Retrain / Block User / Approve -->
+                <div class="model-action-buttons">
+                  <button class="btn btn-secondary" id="btnModelRetrain" title="Trigger Production ML Model Calibration" style="border: 1px solid var(--border-subtle); background: #161922; color: #38BDF8; font-weight: 700; cursor: pointer;">
+                    &#x26A1; Retrain Model
+                  </button>
+                  <button class="btn btn-danger" id="btnModelBlockUser">
+                    &#x1F6D1; Block User
+                  </button>
+                  <button class="btn btn-success" id="btnModelApprove">
+                    &#x2705; Approve
+                  </button>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="right-column">
+            <!-- Fraud Risk Analytics Donut -->
+            <section class="glass-panel donut-analytics-card" id="sectionRiskDonut">
+              <div class="card-top" style="padding: 0 0 8px 0; display: flex; align-items: center; justify-content: space-between;">
+                <div class="card-heading">
+                  <span>Fraud Risk Analytics</span>
+                  <span id="donutScopeHeading">(Global Jurisdiction)</span>
+                </div>
+                <select id="selectRiskTimeframe" class="country-select" title="Timeframe for Fraud Risk Analytics">
+                  <option value="30">Last 30 Days</option>
+                  <option value="7">Last 7 Days</option>
+                  <option value="24">Last 24 Hours</option>
+                </select>
+              </div>
+
+              <div class="donut-content-split">
+                <div class="donut-canvas-container">
+                  <canvas id="donutChartCanvas"></canvas>
+                </div>
+                <div class="donut-legend-list">
+                  <div class="donut-legend-item">
+                    <div class="donut-legend-left">
+                      <span class="dot-red"></span>
+                      <span>High Risk</span>
+                    </div>
+                    <span class="donut-legend-pct" id="donutHighPct">0%</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <div class="donut-legend-left">
+                      <span class="dot-yellow"></span>
+                      <span>Medium Risk</span>
+                    </div>
+                    <span class="donut-legend-pct" id="donutMedPct">0%</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <div class="donut-legend-left">
+                      <span class="dot-green"></span>
+                      <span>Low Risk</span>
+                    </div>
+                    <span class="donut-legend-pct" id="donutLowPct">0%</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Top Risk Countries Mini Map -->
+            <section class="glass-panel countries-risk-card" id="sectionTopCountries">
+              <div class="card-heading">
+                <span>Top Risk Countries</span>
+              </div>
+
+              <!-- Mini Tactical World Map Canvas -->
+              <div class="mini-map-container">
+                <canvas id="geoMapCanvas"></canvas>
+              </div>
+
+              <!-- Country bars -->
+              <div class="top-countries-list">
+                <div class="country-row" data-country="United States" style="cursor: pointer;"
+                  title="Click to scope to USA">
+                  <div class="country-flag-name">
+                    <span>&#x1F1FA;&#x1F1F8;</span>
+                    <span>USA</span>
+                  </div>
+                  <div class="country-bar-wrap">
+                    <div class="country-bar-fill" style="width: 42%;"></div>
+                  </div>
+                  <span class="country-pct">42%</span>
+                </div>
+
+                <div class="country-row" data-country="India" style="cursor: pointer;" title="Click to scope to India">
+                  <div class="country-flag-name">
+                    <span>&#x1F1EE;&#x1F1F3;</span>
+                    <span>India</span>
+                  </div>
+                  <div class="country-bar-wrap">
+                    <div class="country-bar-fill" style="width: 21%;"></div>
+                  </div>
+                  <span class="country-pct">21%</span>
+                </div>
+
+                <div class="country-row" data-country="United Kingdom" style="cursor: pointer;"
+                  title="Click to scope to UK">
+                  <div class="country-flag-name">
+                    <span>&#x1F1EC;&#x1F1E7;</span>
+                    <span>UK</span>
+                  </div>
+                  <div class="country-bar-wrap">
+                    <div class="country-bar-fill" style="width: 15%;"></div>
+                  </div>
+                  <span class="country-pct">15%</span>
+                </div>
+
+                <div class="country-row" data-country="Brazil" style="cursor: pointer;"
+                  title="Click to scope to Brazil">
+                  <div class="country-flag-name">
+                    <span>&#x1F1E7;&#x1F1F7;</span>
+                    <span>Brazil</span>
+                  </div>
+                  <div class="country-bar-wrap">
+                    <div class="country-bar-fill" style="width: 8%;"></div>
+                  </div>
+                  <span class="country-pct">8%</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Threat Attack Simulator Suite -->
+            <section class="glass-panel alerts-card" id="sectionAlertsActions">
+              <div class="card-top" style="padding: 0 0 8px 0; display: flex; justify-content: space-between; align-items: center;">
+                <div class="card-heading">
+                  <span>Attack Simulator Suite</span>
+                </div>
+                <button type="button" class="card-link" id="btnOpenNotificationStatus" style="background: var(--surface-card); border: 1px solid var(--border-card); color: var(--text-secondary); font-size: 0.7rem; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-sm); cursor: pointer;" title="Open real-time notification status drawer">
+                  Notification Status &rarr;
+                </button>
+              </div>
+
+              <!-- Quick Attack Simulator Suite -->
+              <div class="simulator-quick-wrap" style="margin-top: 2px; padding-top: 0; border-top: none;">
+                <div class="simulator-quick-title">Simulate Fraud Attack:</div>
+                <div class="simulator-btn-chips">
+                  <button class="sim-chip-btn" data-scenario="IMPOSSIBLE_TRAVEL" id="btnAttackTeleport"
+                    title="at the speed of >800km/h">
+                    &#x2708;&#xFE0F; Impossible Travel (&gt;800km/h)
+                  </button>
+                  <button class="sim-chip-btn" data-scenario="RAPID_CARDING" id="btnAttackCarding"
+                    title="Automated card probing script">
+                    &#x1F4B3; Carding Micro-Probe
+                  </button>
+                  <button class="sim-chip-btn" data-scenario="MULE_RING" id="btnAttackMule"
+                    title="Multiple accounts sharing device &amp; TOR node">
+                    &#x1F465; Mule Ring
+                  </button>
+                  <button class="sim-chip-btn" data-scenario="UPI_COLLECT_FRAUD" id="btnAttackUPI"
+                    title="Simulates unauthorized UPI collect mandate">
+                    &#x26A1; UPI Scam
+                  </button>
+                  <button class="sim-chip-btn" data-scenario="BURST_VELOCITY" id="btnAttackBurst"
+                    title="High frequency automated bot bursts">
+                    &#x1F525; Burst Surge
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Deep Investigation Modal (Explainable AI Inspector) -->
+  <div class="modal-backdrop" id="investigationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle" style="font-size: 1.15rem; display: flex; align-items: center; gap: 10px;">
+            <span id="modalTxId" class="mono">TX_00000000</span>
+            <span id="modalStatusBadge" class="status-pill-badge status-pill-badge-approved">APPROVED</span>
+          </h2>
+          <p id="modalMerchant" style="font-size: 0.8125rem; color: var(--text-secondary); margin-top: 4px;">Merchant
+            Name</p>
+        </div>
+        <button class="close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <!-- Top Score and Amount Banner -->
+      <div
+        style="display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; background: rgba(0,0,0,0.3); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-card);">
+        <div style="text-align: center; border-right: 1px solid var(--border-card); padding-right: 12px;">
+          <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Ensemble Risk</div>
+          <div class="mono" id="modalScoreValue" style="font-size: 2.5rem; font-weight: 800; line-height: 1.1;">0</div>
+          <div id="modalRiskLevel" class="mono" style="font-size: 0.75rem; font-weight: 700; color: #38BDF8;">LOW RISK
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-size: 0.8125rem; color: var(--text-muted);">Transaction Amount:</span>
+            <span id="modalAmount" class="mono" style="font-size: 1.25rem; font-weight: 700; color: #fff;">$0.00</span>
+          </div>
+
+          <!-- Component Score Contribution Bars -->
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.72rem;">
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Deterministic Rules (45% wt)</span>
+                <span id="valRulesScore" class="mono">0/100</span>
+              </div>
+              <div style="height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px;">
+                <div id="barRulesScore"
+                  style="height: 100%; width: 0%; background: #0EA5E9; border-radius: 2px; transition: width 0.4s;">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>ML Isolation Forest (35% wt)</span>
+                <span id="valMLScore" class="mono">0/100</span>
+              </div>
+              <div style="height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px;">
+                <div id="barMLScore"
+                  style="height: 100%; width: 0%; background: #A855F7; border-radius: 2px; transition: width 0.4s;">
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Syndicate Graph Linkage (20% wt)</span>
+                <span id="valGraphScore" class="mono">0/100</span>
+              </div>
+              <div style="height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px;">
+                <div id="barGraphScore"
+                  style="height: 100%; width: 0%; background: #EF4444; border-radius: 2px; transition: width 0.4s;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explainability Factor Waterfall -->
+      <div>
+        <h3 style="font-size: 0.875rem; margin-bottom: 10px; color: #FFFFFF;">
+          Explainable AI Factor Attribution (SHAP Breakdown)
+        </h3>
+        <div class="factors-waterfall" id="modalFactorsList"></div>
+      </div>
+
+      <!-- Telemetry Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.75rem;">
+        <div class="glass-panel" style="padding: 12px;">
+          <div style="color: var(--text-muted);">Customer &amp; Payment Token</div>
+          <div style="margin-top: 4px;">User ID: <strong id="modalUserId" class="mono">-</strong></div>
+          <div style="margin-top: 2px;">Card Token: <span id="modalCardId" class="mono">-</span></div>
+        </div>
+
+        <div class="glass-panel" style="padding: 12px;">
+          <div style="color: var(--text-muted);">Device &amp; Network Telemetry</div>
+          <div style="margin-top: 4px;">Device: <span id="modalDeviceId" class="mono">-</span></div>
+          <div style="margin-top: 2px;">IP Address: <span id="modalIpAddress" class="mono">-</span></div>
+        </div>
+
+        <div class="glass-panel" style="padding: 12px;">
+          <div style="color: var(--text-muted);">Origin Coordinates</div>
+          <div id="modalLocation" style="margin-top: 4px; font-weight: 600;">-</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 12px;">
+          <div style="color: var(--text-muted);">Payment Medium &amp; Rail</div>
+          <div style="margin-top: 4px;">Medium: <strong id="modalMedium" class="mono">-</strong></div>
+          <div style="margin-top: 2px;">VPA / Rail: <span id="modalRail" class="mono" style="color: #38BDF8;">-</span>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 12px;">
+          <div style="color: var(--text-muted);">Engine Verification Latency</div>
+          <div id="modalLatency" class="mono" style="margin-top: 4px; font-weight: 700; color: #34D399;">-</div>
+        </div>
+      </div>
+
+      <!-- Raw JSON Payload Viewer -->
+      <details style="font-size: 0.75rem;">
+        <summary style="cursor: pointer; color: var(--text-muted); font-weight: 600;">View Raw Event JSON Payload
+        </summary>
+        <pre id="modalRawJson" class="mono"
+          style="margin-top: 8px; padding: 12px; background: #030509; border-radius: var(--radius-sm); border: 1px solid var(--border-card); overflow-x: auto; max-height: 180px;"></pre>
+      </details>
+    </div>
+  </div>
+
+  <!-- Fullscreen Stylish Admin Login Modal -->
+  <div class="auth-modal-backdrop" id="adminLoginModal" role="dialog" aria-modal="true"
+    aria-labelledby="modalLoginTitle">
+    <div class="login-card" style="width: 100%; max-width: 440px; position: relative;">
+      <!-- Close button for modal -->
+      <button class="close-btn" id="btnCloseLoginModal" style="position: absolute; top: 16px; right: 16px;"
+        aria-label="Close dialog">&times;</button>
+
+      <!-- Top Brand & Header -->
+      <div class="login-header">
+        <div class="login-logo-glow" style="width: 48px; height: 48px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="login-title" id="modalLoginTitle" style="font-size: 1.25rem;">Security Authentication Portal</h2>
+          <p class="login-subtitle">ShieldPlus AI &bull; Level 4 Full Authority Identity Management</p>
+        </div>
+        <div class="security-badge-row">
+          <span class="auth-security-tag">
+            <span class="live-status-dot"></span> ZERO-TRUST ENCLAVE &bull; LEVEL 4 FULL AUTHORITY
+          </span>
+        </div>
+      </div>
+
+      <!-- Segmented Navigation Tabs: Sign In / Create Account -->
+      <div
+        style="display: flex; background: #060914; border: 1px solid var(--border-card); border-radius: 8px; padding: 3px; gap: 4px; margin-bottom: 14px;">
+        <button type="button" class="auth-tab-btn active" id="modalTabSignIn"
+          style="flex: 1; padding: 8px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: #FFFFFF;">
+          🔐 Sign In
+        </button>
+        <button type="button" class="auth-tab-btn" id="modalTabSignUp"
+          style="flex: 1; padding: 8px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: #94A3B8;">
+          ➕ Create New Account
+        </button>
+      </div>
+
+      <!-- TAB PANEL 1: MODAL SIGN IN -->
+      <div id="modalPanelSignIn">
+        <form class="auth-form" id="modalLoginForm">
+          <div class="form-group">
+            <label class="form-label" for="modalTxtUsername">
+              <span>Workstation Identifier / Email</span>
+              <span class="form-label-desc">SQLite Repository</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <input type="text" id="modalTxtUsername" class="form-input" placeholder="admin@finsecure.io or your email"
+                value="admin@finsecure.io" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalTxtPassword">
+              <span>Security Passkey</span>
+              <span class="form-label-desc">PBKDF2-SHA256</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <input type="password" id="modalTxtPassword" class="form-input" placeholder="••••••••••••"
+                value="admin2026" required>
+              <button type="button" class="password-toggle-btn" id="modalBtnTogglePassword" title="Show/Hide">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+              <a href="login.html#forgot" style="color: #38BDF8; font-size: 0.74rem; font-weight: 600; text-decoration: underline dotted;" title="Reset passkey via email">Forgot Password?</a>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalSelectClearance">Clearance Level</label>
+            <select id="modalSelectClearance" class="form-input" style="cursor: pointer;">
+              <option value="SUPERADMIN">Level 4: SuperAdmin (Full Authority &amp; Override)</option>
+              <option value="ANALYST">Level 3: Senior Risk Officer</option>
+              <option value="OPERATOR">Level 2: SOC Incident Responder</option>
+            </select>
+          </div>
+
+          <!-- Terminal Verification steps -->
+          <div class="auth-terminal" id="modalAuthTerminal">
+            <div class="terminal-step" id="modalStep1">
+              <span class="terminal-spinner"></span>
+              <span>Verifying cryptographic signature with SQLite users repo...</span>
+            </div>
+            <div class="terminal-step" id="modalStep2">
+              <span>&bull;</span>
+              <span>Validating Zero-Trust session and device binding...</span>
+            </div>
+            <div class="terminal-step" id="modalStep3">
+              <span>&bull;</span>
+              <span>Logging to Level 4 Authority Audit Trail. Entering Console...</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-auth" id="modalBtnSubmit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            <span id="modalBtnSubmitText">Authenticate &amp; Access Console</span>
+          </button>
+
+          <button type="button" class="btn-demo-quick" id="modalBtnDemo">
+            ⚡ 1-Click Instant Demo Login as Admin
+          </button>
+        </form>
+      </div>
+
+      <!-- TAB PANEL 2: MODAL CREATE NEW ACCOUNT -->
+      <div id="modalPanelSignUp" style="display: none;">
+        <form class="auth-form" id="modalRegisterForm">
+          <div class="form-group">
+            <label class="form-label" for="modalTxtRegName">
+              <span>Full Name</span>
+              <span class="form-label-desc">Operator Identity</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <input type="text" id="modalTxtRegName" class="form-input" placeholder="e.g. Debabrata Das" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalTxtRegEmail">
+              <span>Workstation / Personal Email</span>
+              <span class="form-label-desc">Unique Identifier</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </div>
+              <input type="email" id="modalTxtRegEmail" class="form-input" placeholder="e.g. debabrata@finsecure.io"
+                required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalTxtRegPassword">
+              <span>Create Master Passkey</span>
+              <span class="form-label-desc">Min. 4 chars</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <input type="password" id="modalTxtRegPassword" class="form-input" placeholder="Choose a passkey"
+                required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label class="form-label" for="modalSelectRegRole">Role</label>
+              <select id="modalSelectRegRole" class="form-input" style="cursor: pointer; padding-left: 10px;">
+                <option value="Lead Risk Officer">Lead Risk Officer</option>
+                <option value="Chief Security Officer">Chief Security Officer</option>
+                <option value="Senior Threat Hunter">Senior Threat Hunter</option>
+                <option value="SOC Operations Lead">SOC Operations Lead</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modalSelectRegClearance">Clearance Tier</label>
+              <select id="modalSelectRegClearance" class="form-input" style="cursor: pointer; padding-left: 10px;">
+                <option value="SuperAdmin • Level 4" selected>SuperAdmin • Level 4</option>
+                <option value="Level 3: Senior Risk Officer">Level 3: Senior Risk</option>
+                <option value="Level 2: SOC Incident Responder">Level 2: SOC Responder</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Terminal Registration steps -->
+          <div class="auth-terminal" id="modalRegAuthTerminal">
+            <div class="terminal-step" id="modalRegStep1">
+              <span class="terminal-spinner"></span>
+              <span>Hashing passkey using PBKDF2-HMAC-SHA256...</span>
+            </div>
+            <div class="terminal-step" id="modalRegStep2">
+              <span>&bull;</span>
+              <span>Saving operator account to SQLite database...</span>
+            </div>
+            <div class="terminal-step" id="modalRegStep3">
+              <span>&bull;</span>
+              <span>Recording in Level 4 Authority Audit log. Granting access...</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-auth" id="modalBtnSubmitReg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="8.5" cy="7" r="4" />
+              <line x1="20" y1="8" x2="20" y2="14" />
+              <line x1="23" y1="11" x2="17" y2="11" />
+            </svg>
+            <span id="modalBtnSubmitRegText">Create Account &amp; Grant Level 4 Clearance</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users & Syndicate Entities Modal -->
+  <div class="auth-modal-backdrop" id="usersModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 650px; padding: 24px; position: relative; background: #0E0D16; border: 1px solid var(--border-subtle); border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+      <button class="close-btn" id="btnCloseUsersModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+        <span style="font-size: 1.3rem;">👥</span>
+        <div>
+          <h3 style="margin: 0; font-size: 1.15rem; color: #FFFFFF;">Security Operators &amp; Monitored Entities</h3>
+          <p style="margin: 2px 0 0 0; font-size: 0.75rem; color: #9491A6;">Live data fetched directly from SQLite
+            Database</p>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h4
+            style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-primary); margin: 0;">
+            Verified SQLite Database Operators
+          </h4>
+          <div style="display: flex; gap: 6px;">
+            <button id="btnUsersModalCreateAcc"
+              style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); color: #38BDF8; border-radius: 4px; padding: 3px 8px; font-size: 0.68rem; font-weight: 700; cursor: pointer;">
+              ➕ New Account
+            </button>
+            <button id="btnUsersModalAuditLog"
+              style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-card); color: #94A3B8; border-radius: 4px; padding: 3px 8px; font-size: 0.68rem; cursor: pointer;">
+              🛡️ Audit Trail
+            </button>
+          </div>
+        </div>
+        <div id="usersOperatorsList"
+          style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto;">
+          <div style="color: #9491A6; font-size: 0.8rem;">Loading operators from SQLite...</div>
+        </div>
+      </div>
+
+      <div>
+        <h4
+          style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; color: #F87171; margin-bottom: 10px;">
+          Monitored Syndicate Targets (Active Surveillance)
+        </h4>
+        <div id="usersSyndicateList"
+          style="display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="auth-modal-backdrop" id="settingsModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 520px; padding: 24px; position: relative; background: #0E0D16; border: 1px solid var(--border-subtle); border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+      <button class="close-btn" id="btnCloseSettingsModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+        <span style="font-size: 1.3rem;">⚙️</span>
+        <div>
+          <h3 style="margin: 0; font-size: 1.15rem; color: #FFFFFF;">Zero-Trust SOC Settings</h3>
+          <p style="margin: 2px 0 0 0; font-size: 0.75rem; color: #9491A6;">Autonomous AI Fraud Engine Thresholds</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.82rem;">
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px;">
+          <div>
+            <div style="font-weight: 600; color: #FFFFFF;">AI Fraud Flagging Threshold</div>
+            <div style="font-size: 0.72rem; color: #9491A6;">Transactions above this score are flagged for analyst
+              review</div>
+          </div>
+          <span style="font-weight: 700; color: #F59E0B; font-family: var(--font-mono);">55.0 Risk</span>
+        </div>
+
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px;">
+          <div>
+            <div style="font-weight: 600; color: #FFFFFF;">Automated Block Threshold</div>
+            <div style="font-size: 0.72rem; color: #9491A6;">Transactions above this score are instantly halted &amp;
+              prevented</div>
+          </div>
+          <span style="font-weight: 700; color: #EF4444; font-family: var(--font-mono);">78.0 Risk</span>
+        </div>
+
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px;">
+          <div>
+            <div style="font-weight: 600; color: #FFFFFF;">Impossible Travel Speed Limit</div>
+            <div style="font-size: 0.72rem; color: #9491A6;">Speed delta exceeding physical air travel speed triggers
+              alert</div>
+          </div>
+          <span style="font-weight: 700; color: var(--accent-primary); font-family: var(--font-mono);">800 km/h</span>
+        </div>
+
+        <div
+          style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px;">
+          <div>
+            <div style="font-weight: 600; color: #FFFFFF;">Cryptographic Hash Cipher</div>
+            <div style="font-size: 0.72rem; color: #9491A6;">Database password encryption standard</div>
+          </div>
+          <span
+            style="font-weight: 600; color: #34D399; font-family: var(--font-mono); font-size: 0.75rem;">PBKDF2-SHA256</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+        <button id="btnSaveSettings" class="btn btn-primary"
+          style="padding: 8px 18px; font-size: 0.8rem; background: var(--accent-primary); color: #0B0A10; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+          Apply &amp; Sync SOC Enclave
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audit Logs Modal: Level 4 Full Authority Security Center -->
+  <div class="auth-modal-backdrop" id="auditLogsModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 820px; padding: 24px; position: relative; background: #090E1D; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 14px; box-shadow: 0 25px 70px rgba(0,0,0,0.9), 0 0 40px rgba(14, 165, 233, 0.25);">
+      <button class="close-btn" id="btnCloseAuditLogsModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">🛡️</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.15rem; color: #FFFFFF; font-weight: 700;">Level 4 Full Authority &bull;
+              Access &amp; Identity Audit Center</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.72rem; color: #9491A6;">Live SQLite record of who created
+              accounts, who logged in, and system access telemetry</p>
+          </div>
+        </div>
+        <span
+          style="font-family: var(--font-mono); font-size: 0.65rem; padding: 3px 10px; border-radius: 9999px; background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); color: #38BDF8; font-weight: 700;">
+          LEVEL 4 FULL CLEARANCE
+        </span>
+      </div>
+
+      <!-- Live Summary KPI Tiles -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;">
+        <div style="background: #060914; border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Registered Accounts</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #38BDF8; font-family: var(--font-mono);"
+            id="modalLvl4StatAccounts">--</div>
+        </div>
+        <div style="background: #060914; border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Successful Logins</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #34D399; font-family: var(--font-mono);"
+            id="modalLvl4StatSuccess">--</div>
+        </div>
+        <div style="background: #060914; border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Failed Logins</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #EF4444; font-family: var(--font-mono);"
+            id="modalLvl4StatFailed">--</div>
+        </div>
+        <div style="background: #060914; border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Total Audit Records</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #F59E0B; font-family: var(--font-mono);"
+            id="modalLvl4StatTotal">--</div>
+        </div>
+      </div>
+
+      <!-- Filter Controls & Search -->
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 6px;" id="modalAuditFilterTabs">
+          <button class="btn-inspect-level4 active" data-filter="ALL"
+            style="padding: 4px 10px; font-size: 0.7rem; border-radius: 6px; cursor: pointer;">All Events</button>
+          <button class="btn-inspect-level4" data-filter="LOGIN"
+            style="padding: 4px 10px; font-size: 0.7rem; border-radius: 6px; cursor: pointer;">Logins</button>
+          <button class="btn-inspect-level4" data-filter="ACCOUNT_CREATED"
+            style="padding: 4px 10px; font-size: 0.7rem; border-radius: 6px; cursor: pointer;">Accounts Created</button>
+          <button class="btn-inspect-level4" data-filter="LOGIN_FAILED"
+            style="padding: 4px 10px; font-size: 0.7rem; border-radius: 6px; cursor: pointer; color: #EF4444;">Failed</button>
+        </div>
+
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="text" id="modalAuditSearchInput" placeholder="Filter user, email, or IP..."
+            style="background: #060914; border: 1px solid var(--border-card); border-radius: 6px; padding: 5px 10px; color: #FFFFFF; font-size: 0.72rem; outline: none; width: 180px;">
+          <button id="btnRefreshModalAudit"
+            style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); color: #9491A6; border-radius: 6px; padding: 5px 9px; font-size: 0.72rem; cursor: pointer;">
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Audit Logs Feed List -->
+      <div id="auditLogsContent"
+        style="display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; font-size: 0.76rem;">
+        <div style="color: #9491A6; padding: 16px; text-align: center;">Fetching verified Level 4 audit logs from SQLite
+          database...</div>
+      </div>
+
+      <!-- Registered Accounts Quick Bar -->
+      <div style="margin-top: 14px; border-top: 1px solid var(--border-card); padding-top: 10px;">
+        <div style="font-size: 0.75rem; font-weight: 700; color: #38BDF8; margin-bottom: 6px;">
+          👥 Active Registered Accounts in SQLite
+        </div>
+        <div id="modalAuditRegisteredUsers" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;">
+          <div style="color: #9491A6; font-size: 0.72rem;">Loading accounts...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Notifications Dropdown (Real-Time Live Telemetry) -->
+  <div id="notificationsDrawer" class="notifications-drawer">
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+      <div style="font-weight: 700; color: #FFFFFF; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.1rem;">🔔</span>
+        <span>Notification Status &amp; Threats</span>
+        <span id="drawerUnreadBadge" class="nav-badge-count"
+          style="position: static; font-size: 0.65rem; padding: 2px 7px; border-radius: 9999px; height: auto; width: auto; font-weight: 800;">3
+          NEW</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <button type="button" id="btnMarkAllNotifsRead" title="Mark all alerts as read"
+          style="background: var(--surface-card); border: 1px solid var(--border-card); color: var(--text-secondary); font-size: 0.68rem; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-sm); cursor: pointer;">
+          Mark Read
+        </button>
+        <button type="button" id="btnClearAllNotifs" title="Clear all notifications"
+          style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-card); color: #9491A6; font-size: 0.68rem; padding: 3px 6px; border-radius: 4px; cursor: pointer;">
+          🗑️
+        </button>
+        <button type="button" id="btnCloseNotificationDrawer"
+          style="background: transparent; border: none; color: #9491A6; font-size: 1.3rem; cursor: pointer; line-height: 1; padding: 0 4px;">&times;</button>
+      </div>
+    </div>
+
+    <!-- Quick Status Filter Chips for Drawer -->
+    <div style="display: flex; gap: 6px; margin-bottom: 10px; align-items: center;">
+      <button type="button" id="btnNotifFilterAll" class="chip-btn active"
+        style="font-size: 0.68rem; padding: 3px 9px;">All</button>
+      <button type="button" id="btnNotifFilterBlocked" class="chip-btn"
+        style="font-size: 0.68rem; padding: 3px 9px;">&#x1F534; Blocked</button>
+      <button type="button" id="btnNotifFilterReview" class="chip-btn"
+        style="font-size: 0.68rem; padding: 3px 9px;">&#x1F7E1; Review</button>
+    </div>
+
+    <!-- Live Real-Time Feed List -->
+    <div id="drawerAlertsList"
+      style="display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; padding-right: 2px;">
+    </div>
+
+    <!-- Drawer Footer Actions -->
+    <div
+      style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.7rem; color: #9491A6;">
+      <span id="drawerStatusText" style="display: flex; align-items: center; gap: 5px;">
+        <span
+          style="width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 6px #10B981;"></span>
+        Telemetry Synchronized
+      </span>
+      <button type="button" id="btnViewAllThreatsModal"
+        style="background: transparent; border: none; color: #38BDF8; font-weight: 700; cursor: pointer; font-size: 0.72rem;">
+        View Threat Enclave &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal 1: Real-Time Fraud Alerts & Interceptions Center -->
+  <div class="auth-modal-backdrop" id="fraudAlertsModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 860px; padding: 24px; position: relative; background: #0B0E1B; border: 1px solid rgba(239, 68, 68, 0.45); border-radius: 14px; box-shadow: 0 25px 70px rgba(0,0,0,0.9), 0 0 35px rgba(239, 68, 68, 0.25);">
+      <button class="close-btn" id="btnCloseFraudAlertsModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">🚨</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.2rem; color: #FFFFFF; font-weight: 700;">Active Fraud Alerts &amp;
+              Critical Threat Interceptions</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.74rem; color: #9491A6;">Real-time anomaly triggers from Isolation
+              Forest, Velocity Graphs, and Geolocation Surveillance</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button id="btnFilterAlertsAll"
+            style="background: rgba(255,255,255,0.08); border: 1px solid var(--border-card); color: #E2E8F0; font-size: 0.68rem; padding: 3px 8px; border-radius: 4px; cursor: pointer;">All
+            (12)</button>
+          <span id="modalAlertsActiveBadge"
+            style="font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 10px; border-radius: 9999px; background: rgba(239,68,68,0.18); border: 1px solid #EF4444; color: #F87171; font-weight: 700;">
+            12 ACTIVE THREATS
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;">
+        <div id="cardFilterVelocity"
+          style="background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: all 0.2s;"
+          title="Filter Velocity Attacks">
+          <div style="font-size: 0.65rem; color: #FCA5A5; text-transform: uppercase;">Velocity Attacks</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #EF4444; font-family: var(--font-mono);">5 Surge
+            Events</div>
+        </div>
+        <div id="cardFilterMule"
+          style="background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.3); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: all 0.2s;"
+          title="Filter Mule Syndicates">
+          <div style="font-size: 0.65rem; color: #FCD34D; text-transform: uppercase;">Mule Syndicates</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #F59E0B; font-family: var(--font-mono);">3 Clustered
+          </div>
+        </div>
+        <div id="cardFilterTravel"
+          style="background: rgba(14,165,233,0.06); border: 1px solid rgba(14,165,233,0.3); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: all 0.2s;"
+          title="Filter Impossible Travel">
+          <div style="font-size: 0.65rem; color: #7DD3FC; text-transform: uppercase;">Impossible Travel</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #38BDF8; font-family: var(--font-mono);">2
+            Intercepted</div>
+        </div>
+        <div id="cardFilterCrypto"
+          style="background: var(--surface-card); border: 1px solid var(--border-card); border-radius: var(--radius-sm); padding: 8px 12px; cursor: pointer; transition: all 0.2s;"
+          title="Filter Crypto Mixers">
+          <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase;">Crypto Mixers</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono);">2 Hops
+            Blocked</div>
+        </div>
+      </div>
+
+      <!-- Feed List Container -->
+      <div id="fraudAlertsListContainer"
+        style="display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Risk Analytics & Model Forensics Center -->
+  <div class="auth-modal-backdrop" id="analyticsModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 860px; padding: 24px; position: relative; background: #0B0E1B; border: 1px solid rgba(123, 97, 255, 0.45); border-radius: 14px; box-shadow: 0 25px 70px rgba(0,0,0,0.9), 0 0 35px rgba(123, 97, 255, 0.25);">
+      <button class="close-btn" id="btnCloseAnalyticsModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">📊</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.2rem; color: #FFFFFF; font-weight: 700;">Deep Risk Analytics &amp;
+              Machine Learning Telemetry</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.74rem; color: #9491A6;">Sub-millisecond inference performance,
+              SHAP explainability, and multi-rail risk metrics</p>
+          </div>
+        </div>
+        <span
+          style="font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 10px; border-radius: 9999px; background: rgba(52,211,153,0.15); border: 1px solid #34D399; color: #34D399; font-weight: 700;">
+          MODEL OPERATIONAL
+        </span>
+      </div>
+
+      <!-- Model Performance Telemetry Cards -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;">
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">AUC-ROC Score</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #34D399; font-family: var(--font-mono);">98.6%</div>
+        </div>
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Avg Inference Latency</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #38BDF8; font-family: var(--font-mono);"
+            id="analyticsModelLatency">14.2 ms</div>
+        </div>
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">False Positive Rate</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #F59E0B; font-family: var(--font-mono);">0.11%</div>
+        </div>
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Ensemble Architecture</div>
+          <div
+            style="font-size: 0.84rem; font-weight: 700; color: #A78BFA; font-family: var(--font-mono); margin-top: 4px;">
+            Isolation Forest + XGB</div>
+        </div>
+      </div>
+
+      <!-- Analytics Body: SHAP Breakdown & Rail Risk -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-height: 320px; overflow-y: auto;">
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 12px;">
+          <div style="font-size: 0.78rem; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">Top SHAP Feature
+            Importance Attribution</div>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:0.72rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="color:#E2E8F0;">Amount Deviation vs User Mean</span>
+              <span style="font-family:var(--font-mono); color:#EF4444; font-weight:700;">+4.82 SHAP</span>
+            </div>
+            <div style="width:100%; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden;">
+              <div style="width:96%; height:100%; background:#EF4444;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span style="color:#E2E8F0;">Physical Velocity Delta (km/h)</span>
+              <span style="font-family:var(--font-mono); color:#EF4444; font-weight:700;">+3.95 SHAP</span>
+            </div>
+            <div style="width:100%; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden;">
+              <div style="width:82%; height:100%; background:#EF4444;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span style="color:#E2E8F0;">Device Fingerprint Anomaly</span>
+              <span style="font-family:var(--font-mono); color:#F59E0B; font-weight:700;">+3.10 SHAP</span>
+            </div>
+            <div style="width:100%; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden;">
+              <div style="width:68%; height:100%; background:#F59E0B;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span style="color:#E2E8F0;">Beneficiary Mule Linkage Score</span>
+              <span style="font-family:var(--font-mono); color:#F59E0B; font-weight:700;">+2.65 SHAP</span>
+            </div>
+            <div style="width:100%; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden;">
+              <div style="width:55%; height:100%; background:#F59E0B;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span style="color:#E2E8F0;">Midnight Surge Timing (01:00-05:00)</span>
+              <span style="font-family:var(--font-mono); color:#38BDF8; font-weight:700;">+1.85 SHAP</span>
+            </div>
+            <div style="width:100%; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden;">
+              <div style="width:40%; height:100%; background:#38BDF8;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 12px;">
+          <div style="font-size: 0.78rem; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;">Multi-Rail Anomaly
+            Breakdown</div>
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:0.72rem;">
+            <div style="display:flex; justify-content:space-between;"><span>💳 Credit &amp; Debit Cards</span><span
+                style="font-weight:700; color:#EF4444;">34.2% Risk Vol</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>⚡ Instant UPI Transfers</span><span
+                style="font-weight:700; color:#F59E0B;">28.4% Risk Vol</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>🪙 Crypto / Web3 Gateways</span><span
+                style="font-weight:700; color:#C084FC;">16.1% Risk Vol</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>📱 Mobile Wallets</span><span
+                style="font-weight:700; color:#38BDF8;">11.8% Risk Vol</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>🏧 ATM Cash Withdrawals</span><span
+                style="font-weight:700; color:#94A3B8;">9.5% Risk Vol</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Chargebacks & Dispute Arbitrations Center -->
+  <div class="auth-modal-backdrop" id="chargebacksModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 880px; padding: 24px; position: relative; background: #0B0E1B; border: 1px solid rgba(245, 158, 11, 0.45); border-radius: 14px; box-shadow: 0 25px 70px rgba(0,0,0,0.9), 0 0 35px rgba(245, 158, 11, 0.25);">
+      <button class="close-btn" id="btnCloseChargebacksModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">💳</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.2rem; color: #FFFFFF; font-weight: 700;">Chargebacks &amp; Disputed
+              Volume Command Center</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.74rem; color: #9491A6;">Zero-Trust merchant representation,
+              network liability defense, and chargeback mitigation</p>
+          </div>
+        </div>
+        <span
+          style="font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 10px; border-radius: 9999px; background: rgba(245,158,11,0.18); border: 1px solid #F59E0B; color: #FBBF24; font-weight: 700;">
+          DISPUTE RADAR ACTIVE
+        </span>
+      </div>
+
+      <!-- Dispute Metric Strip -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;">
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Total Disputed Volume</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #EF4444; font-family: var(--font-mono);">$1,248,390
+          </div>
+        </div>
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Chargeback Ratio</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #34D399; font-family: var(--font-mono);">0.41% (Safe
+            &lt; 1%)</div>
+        </div>
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Win / Reversal Rate</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #38BDF8; font-family: var(--font-mono);">78.4%
+            Defended</div>
+        </div>
+        <div
+          style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-card); border-radius: 8px; padding: 8px 12px;">
+          <div style="font-size: 0.65rem; color: #9491A6; text-transform: uppercase;">Open Arbitrations</div>
+          <div style="font-size: 1.15rem; font-weight: 700; color: #F59E0B; font-family: var(--font-mono);">14 Cases
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Disputes Ledger -->
+      <div id="chargebacksListContainer"
+        style="display: flex; flex-direction: column; gap: 8px; max-height: 330px; overflow-y: auto;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Executive SOC & Compliance Reports Center -->
+  <div class="auth-modal-backdrop" id="reportsModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 860px; padding: 24px; position: relative; background: #0B0E1B; border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 14px; box-shadow: 0 25px 70px rgba(0,0,0,0.9), 0 0 35px rgba(56, 189, 248, 0.25);">
+      <button class="close-btn" id="btnCloseReportsModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">📄</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.2rem; color: #FFFFFF; font-weight: 700;">Executive Forensic Intelligence
+              &amp; Compliance Reports</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.74rem; color: #9491A6;">Regulatory compliance auditing (SOC-2,
+              FinCEN AML SAR, PCI-DSS Level 1, Country Dossiers)</p>
+          </div>
+        </div>
+        <span
+          style="font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 10px; border-radius: 9999px; background: rgba(56,189,248,0.18); border: 1px solid #38BDF8; color: #38BDF8; font-weight: 700;">
+          REGULATORY READY
+        </span>
+      </div>
+
+      <!-- Report Configuration Controls -->
+      <div style="display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 10px; margin-bottom: 14px;">
+        <div>
+          <label
+            style="display:block; font-size:0.68rem; color:#9491A6; margin-bottom:4px; text-transform:uppercase;">Select
+            Audit / Report Standard</label>
+          <select id="selectReportType" class="form-input"
+            style="padding:7px 10px; font-size:0.75rem; width:100%; cursor:pointer;">
+            <option value="SOC2">🛡️ SOC-2 Type II Security &amp; Access Controls Audit</option>
+            <option value="SAR">🚨 FinCEN AML Suspicious Activity Report (SAR)</option>
+            <option value="PCIDSS">💳 PCI-DSS Level 1 Autonomous Defense Summary</option>
+            <option value="MULE">🕸️ Cross-Border Mule Syndicate Forensic Dossier</option>
+            <option value="EXECUTIVE" selected>📈 Executive Risk &amp; Loss Mitigation Brief</option>
+          </select>
+        </div>
+        <div>
+          <label
+            style="display:block; font-size:0.68rem; color:#9491A6; margin-bottom:4px; text-transform:uppercase;">Jurisdiction
+            Scope</label>
+          <select id="selectReportJurisdiction" class="form-input"
+            style="padding:7px 10px; font-size:0.75rem; width:100%; cursor:pointer;">
+            <option value="GLOBAL" selected>🌐 Global Surveillance (All Regions)</option>
+            <option value="United States">🇺🇸 United States (FinCEN / OCC)</option>
+            <option value="India">🇮🇳 India (RBI / CERT-In)</option>
+            <option value="United Kingdom">🇬🇧 United Kingdom (FCA / PSR)</option>
+            <option value="Germany">🇩🇪 Germany / EU (BaFin / GDPR)</option>
+            <option value="Singapore">🇸🇬 Singapore (MAS)</option>
+            <option value="Japan">🇯🇵 Japan (JFSA)</option>
+            <option value="Canada">🇨🇦 Canada (FINTRAC)</option>
+            <option value="Australia">🇦🇺 Australia (AUSTRAC)</option>
+            <option value="United Arab Emirates">🇦🇪 UAE (CBUAE)</option>
+          </select>
+        </div>
+        <div>
+          <label
+            style="display:block; font-size:0.68rem; color:#9491A6; margin-bottom:4px; text-transform:uppercase;">Timeframe</label>
+          <select id="selectReportTimeframe" class="form-input"
+            style="padding:7px 10px; font-size:0.75rem; width:100%; cursor:pointer;">
+            <option value="24H">Live 24 Hours</option>
+            <option value="7D">Last 7 Days</option>
+            <option value="30D">Last 30 Days</option>
+            <option value="YTD">Year-to-Date 2026</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Live Report Preview Box -->
+      <div id="reportLivePreview"
+        style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-card); border-radius: 8px; padding: 14px; max-height: 250px; overflow-y: auto; font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.5; color: #E2E8F0; margin-bottom: 14px;">
+        <div style="color:#38BDF8; font-weight:700; margin-bottom:6px;">
+          === SHIELDPLUS AI SOC FORENSIC REPORT: [EXECUTIVE RISK &amp; LOSS MITIGATION] ===
+        </div>
+        <div>Jurisdiction: <span style="color:#FFFFFF; font-weight:600;">GLOBAL (Global Surveillance &bull; All Regions)</span></div>
+        <div>Reporting Timeframe: <span style="color:#FFFFFF; font-weight:600;">Live 24 Hours</span></div>
+        <div>Classification: <span style="color:#34D399; font-weight:700;">REGULATORY COMPLIANT &bull; ZERO BREACHES</span></div>
+        <div style="margin:8px 0; border-top:1px dashed #334155; padding-top:8px;">
+          <div>&bull; Total Ingested Transactions: <strong style="color:#FFFFFF;">24,586</strong></div>
+          <div>&bull; Confirmed Fraud Blocks: <strong style="color:#EF4444;">187 (0.76% Anomaly Rate)</strong></div>
+          <div>&bull; Total Monitored Volume: <strong style="color:#FFFFFF;">$4,548,410.00</strong></div>
+          <div>&bull; Capital Protected / Losses Prevented: <strong style="color:#10B981;">$425,890.00</strong></div>
+          <div>&bull; Autonomous Interception Engine: <strong style="color:#C084FC;">Isolation Forest + Velocity Graphs + Heuristic Rules</strong></div>
+          <div>&bull; Impossible Travel Interceptions: <strong style="color:#F59E0B;">18 Intercepted (&gt;800 km/h)</strong></div>
+        </div>
+        <div style="color:#9491A6; font-size:0.68rem;">
+          Verified and cryptographically sealed under Level 4 Full Authority Security Clearance. Ready for FinCEN, RBI, FCA, and BaFin statutory submission.
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button id="btnExportReportJSON"
+          style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-card); color: #FFFFFF; border-radius: 6px; padding: 8px 14px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
+          📥 Download JSON Audit
+        </button>
+        <button id="btnExportReportCSV"
+          style="background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.4); color: #38BDF8; border-radius: 6px; padding: 8px 14px; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
+          📊 Export CSV Ledger
+        </button>
+        <button id="btnPrintReportView"
+          style="background: var(--surface-raised); border: 1px solid var(--border-active); color: #FFFFFF; border-radius: var(--radius-sm); padding: 8px 16px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+          Print / Save Official PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Operator Profile & Google Avatar Settings -->
+  <div class="auth-modal-backdrop" id="profileModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 620px; padding: 20px; position: relative; background: var(--surface-card); border: 1px solid var(--border-card); border-radius: var(--radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.9);">
+      <button class="close-btn" id="btnCloseProfileModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <span style="font-size: 1.4rem;">👤</span>
+        <div>
+          <h3 style="margin: 0; font-size: 1.1rem; color: #FFFFFF; font-weight: 700; font-family: var(--font-main);">Operator Profile &amp; Identity</h3>
+          <p style="margin: 2px 0 0 0; font-size: 0.72rem; color: var(--text-muted);">Manage forensic operator credentials and telemetry</p>
+        </div>
+      </div>
+
+      <!-- Current Identity Card -->
+      <div
+        style="display:flex; align-items:center; gap:16px; padding:12px; background:var(--surface-card-subtle); border:1px solid var(--border-card); border-radius:var(--radius-sm); margin-bottom:14px;">
+        <div id="profileModalAvatarContainer"
+          style="width:48px; height:48px; border-radius:var(--radius-sm); flex-shrink:0; overflow:hidden; border:1px solid var(--border-highlight);">
+          <div class="user-initial-badge" style="width:100%; height:100%; font-size:1.2rem;">?</div>
+        </div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h4 id="profileModalName" style="margin:0; font-size:0.95rem; color:#FFFFFF; font-weight:700; font-family: var(--font-mono);">Anonymous User</h4>
+            <span id="profileModalClearance"
+              style="background:var(--accent-cyan-subtle); border:1px solid var(--accent-cyan-border); color:var(--accent-cyan); font-size:0.65rem; padding:2px 6px; border-radius:var(--radius-sm); font-weight:700; font-family: var(--font-mono);">LEVEL 0</span>
+          </div>
+          <div id="profileModalEmail" style="color:var(--text-muted); font-size:0.72rem; margin-top:3px; font-family: var(--font-mono);">
+            anonymous@shieldplus.local</div>
+          <div id="profileModalRole" style="color:var(--text-secondary); font-size:0.7rem; margin-top:2px;">Lead Risk Officer &bull; FinSecure Enclave</div>
+        </div>
+      </div>
+
+      <!-- Real Google Profile Picture / Custom Avatar Settings (Gallery, Camera, File & Email) -->
+      <div
+        style="background:var(--surface-card-subtle); border:1px solid var(--border-card); border-radius:var(--radius-sm); padding:12px; margin-bottom:14px;">
+        <div
+          style="font-size:0.75rem; font-weight:700; color:#FFFFFF; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+          <span>Profile Picture Options (Email, Gallery, Camera &amp; File)</span>
+        </div>
+        <p style="font-size:0.7rem; color:var(--text-muted); margin:0 0 10px 0; line-height:1.4;">
+          Your profile picture is automatically fetched from your login email ID. If no photo exists on the email
+          account, your name's 1st letter is displayed in CAPITAL by default. You can also set a photo from your
+          gallery, camera, or file.
+        </p>
+
+        <!-- Avatar Source Buttons: Gallery, Camera, File, Email Sync, Name First Letter -->
+        <div style="display:flex; gap:6px; align-items:center; margin-bottom:10px; flex-wrap:wrap;">
+          <label
+            style="background:var(--surface-card); border:1px solid var(--border-card); color:var(--text-primary); padding:5px 10px; border-radius:var(--radius-sm); font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:5px;"
+            title="Choose photo from device photo gallery">
+            Gallery
+            <input type="file" id="fileProfileGallery" accept="image/*" style="display:none;">
+          </label>
+          <button type="button" id="btnProfileCamera"
+            style="background:var(--surface-card); border:1px solid var(--border-card); color:var(--text-primary); padding:5px 10px; border-radius:var(--radius-sm); font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:5px;"
+            title="Take a live snapshot using your camera/webcam">
+            Camera
+          </button>
+          <label
+            style="background:var(--surface-card); border:1px solid var(--border-card); color:var(--text-primary); padding:5px 10px; border-radius:var(--radius-sm); font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:5px;"
+            title="Browse file system for image">
+            File
+            <input type="file" id="fileProfileModalUpload" accept="image/*,.png,.jpg,.jpeg,.webp,.svg"
+              style="display:none;">
+          </label>
+          <button type="button" id="btnSyncEmailAvatar"
+            style="background:var(--surface-card); border:1px solid var(--border-card); color:var(--text-primary); padding:5px 10px; border-radius:var(--radius-sm); font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:5px;"
+            title="Re-fetch photo from your login email">
+            From Email
+          </button>
+          <button type="button" id="btnUseInitialAvatar"
+            style="background:var(--surface-card); border:1px solid var(--border-card); color:var(--text-primary); padding:5px 10px; border-radius:var(--radius-sm); font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:5px;"
+            title="Default to capital first letter avatar">
+            First Letter
+          </button>
+        </div>
+
+        <!-- Live Camera Viewfinder Box (Shown when Camera clicked) -->
+        <div id="profileCameraContainer"
+          style="display:none; margin:10px 0; background:#000000; border:1px solid var(--border-highlight); border-radius:var(--radius-sm); padding:12px; text-align:center;">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-primary); margin-bottom:8px;">Live Camera Snapshot</div>
+          <div
+            style="position:relative; width:160px; height:160px; margin:0 auto; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border-highlight);">
+            <video id="profileCameraVideo" autoplay playsinline
+              style="width:100%; height:100%; object-fit:cover;"></video>
+          </div>
+          <div style="display:flex; justify-content:center; gap:8px; margin-top:10px;">
+            <button type="button" id="btnProfileCapturePhoto"
+              style="background:var(--color-approved-bg); border:1px solid var(--color-approved-border); color:var(--color-approved); padding:5px 14px; border-radius:var(--radius-sm); font-size:0.72rem; font-weight:700; cursor:pointer;">
+              Capture Photo
+            </button>
+            <button type="button" id="btnProfileCancelCamera"
+              style="background:var(--surface-card); border:1px solid var(--border-card); color:var(--text-secondary); padding:5px 10px; border-radius:var(--radius-sm); font-size:0.72rem; cursor:pointer;">
+              Cancel
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <label style="display:block; font-size:0.68rem; color:var(--text-muted);">Direct Image URL:</label>
+          <input type="url" id="txtProfileModalAvatarUrl"
+            placeholder="https://..."
+            style="width:100%; background:var(--bg-canvas); border:1px solid var(--border-card); border-radius:var(--radius-sm); padding:6px 10px; color:#FFFFFF; font-size:0.72rem; font-family: var(--font-mono); outline:none;">
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button type="button" id="btnSaveProfileSettings"
+          style="background:var(--surface-raised); border:1px solid var(--border-active); color:#FFFFFF; padding:6px 16px; border-radius:var(--radius-sm); font-size:0.75rem; font-weight:700; cursor:pointer;">
+          Save Profile Settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Transaction Deep Forensics & SHAP Inspection Modal -->
+  <div class="auth-modal-backdrop" id="forensicsModal" role="dialog" aria-modal="true">
+    <div class="glass-panel"
+      style="width: 100%; max-width: 780px; padding: 20px; position: relative; background: var(--surface-card); border: 1px solid var(--border-card); border-radius: var(--radius-md); box-shadow: 0 10px 40px rgba(0,0,0,0.9);">
+      <button class="close-btn" id="btnCloseForensicsModal"
+        style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #9491A6; font-size: 1.5rem; cursor: pointer;">&times;</button>
+
+      <div
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-card); padding-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">🔬</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.2rem; color: #FFFFFF; font-weight: 700;">Sub-Millisecond Transaction
+              Forensics</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.74rem; color: #9491A6;">Isolation Forest Decision Tree &amp;
+              Geolocation Velocity Breakdown</p>
+          </div>
+        </div>
+        <span id="forensicsRiskBadge"
+          style="font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 10px; border-radius: 9999px; background: rgba(239,68,68,0.18); border: 1px solid #EF4444; color: #F87171; font-weight: 700;">
+          RISK: 98.4%
+        </span>
+      </div>
+
+      <div id="forensicsModalContent" style="display:flex; flex-direction:column; gap:12px; font-size:0.75rem;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer"></div>
+
+  <!-- Hidden Network Graph Canvas for Mule Syndicate Subsystem -->
+  <div style="display:none;"><canvas id="networkGraphCanvas"></canvas></div>
+
+  <!-- Bootstrap App Script -->
+  <script type="module" src="js/app.js?v=14.0"></script>
+</body>
+
+</html>

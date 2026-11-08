@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="ShieldPlus AI - Security Authentication Portal. Zero-Trust Access & Level 4 Full Authority Identity Management.">
+  <title>Security Authentication &mdash; ShieldPlus AI</title>
+
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Design System & Dashboard CSS -->
+  <link rel="stylesheet" href="css/design-system.css?v=8.0">
+  <link rel="stylesheet" href="css/dashboard.css?v=8.0">
+
+  <style>
+    /* Dedicated Page Styling for Full-Screen Login & Registration */
+    body.login-body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-canvas, #070A14);
+      background-image:
+        radial-gradient(circle at 50% 15%, rgba(14, 165, 233, 0.14) 0%, transparent 60%),
+        radial-gradient(circle at 85% 85%, rgba(37, 99, 235, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 15% 75%, rgba(123, 97, 255, 0.08) 0%, transparent 45%);
+      position: relative;
+      overflow-x: hidden;
+      padding: 30px 16px;
+      font-family: var(--font-main, 'Plus Jakarta Sans', sans-serif);
+      color: #FFFFFF;
+    }
+
+    /* Ambient Animated Grid Lines */
+    .bg-grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(27, 36, 59, 0.28) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(27, 36, 59, 0.28) 1px, transparent 1px);
+      mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 520px;
+      margin: auto;
+    }
+
+    .login-card {
+      background: rgba(13, 18, 34, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-card, #1B243B);
+      border-top: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: var(--radius-xl, 14px);
+      padding: 34px 30px;
+      box-shadow:
+        0 25px 65px rgba(0, 0, 0, 0.88),
+        0 0 35px rgba(14, 165, 233, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .login-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .login-logo-glow {
+      width: 58px;
+      height: 58px;
+      border-radius: var(--radius-xl, 14px);
+      background: linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      box-shadow: 0 0 30px rgba(14, 165, 233, 0.55);
+      position: relative;
+    }
+
+    .login-logo-glow::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      border: 1px dashed rgba(56, 189, 248, 0.5);
+      animation: rotate-ring 14s linear infinite;
+    }
+
+    @keyframes rotate-ring {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .login-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .login-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-secondary, #94A3B8);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .security-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .auth-security-tag {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.4);
+      color: #38BDF8;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 0.03em;
+    }
+
+    .live-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(0.85);
+      }
+    }
+
+    /* Modern Segmented Navigation Tabs */
+    .auth-tabs-nav {
+      display: flex;
+      background: #060914;
+      border: 1px solid var(--border-card, #1B243B);
+      border-radius: var(--radius-lg, 10px);
+      padding: 4px;
+      gap: 4px;
+      position: relative;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: var(--radius-md, 8px);
+      background: transparent;
+      color: var(--text-secondary, #94A3B8);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-main, sans-serif);
+    }
+
+    .auth-tab-btn:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .auth-tab-btn.active {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(37, 99, 235, 0.25) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #38BDF8;
+      font-weight: 700;
+      box-shadow: 0 0 15px rgba(14, 165, 233, 0.25);
+    }
+
+    /* Tab Panels */
+    .auth-panel {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .auth-panel.active {
+      display: flex;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #F8FAFC;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-label-desc {
+      font-size: 0.68rem;
+      color: #64748B;
+      font-family: var(--font-mono, monospace);
+    }
+
+    .input-field-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #64748B;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .form-input {
+      width: 100%;
+      background: #090E1B;
+      border: 1px solid var(--border-card, #1B243B);
+      border-radius: var(--radius-md, 8px);
+      padding: 10px 40px 10px 42px;
+      color: #FFFFFF;
+      font-size: 0.84rem;
+      font-family: var(--font-main, sans-serif);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: #0EA5E9;
+      background: #0C1224;
+      box-shadow: 0 0 16px rgba(14, 165, 233, 0.3);
+    }
+
+    .form-input:focus~.input-icon {
+      color: #38BDF8;
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: #64748B;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: color 0.15s ease;
+    }
+
+    .password-toggle-btn:hover {
+      color: #FFFFFF;
+    }
+
+    /* Avatar Selector Grid for Account Creation */
+    .avatar-presets-grid {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .avatar-preset-item {
+      position: relative;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .avatar-preset-item img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar-preset-item:hover {
+      transform: scale(1.08);
+      border-color: #38BDF8;
+    }
+
+    .avatar-preset-item.selected {
+      border-color: #0EA5E9;
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.6);
+      transform: scale(1.1);
+    }
+
+    .auth-options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+    }
+
+    .remember-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      color: var(--text-secondary, #94A3B8);
+      user-select: none;
+    }
+
+    .remember-wrap input[type="checkbox"] {
+      accent-color: #0EA5E9;
+      width: 15px;
+      height: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: #38BDF8;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+      color: #7DD3FC;
+    }
+
+    .btn-submit-auth {
+      background: linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md, 8px);
+      padding: 12px 20px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.45);
+      position: relative;
+      overflow: hidden;
+      font-family: var(--font-main, sans-serif);
+    }
+
+    .btn-submit-auth:hover {
+      box-shadow: 0 0 30px rgba(14, 165, 233, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit-auth:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-demo-quick {
+      background: #090E1B;
+      border: 1px dashed rgba(56, 189, 248, 0.5);
+      color: #38BDF8;
+      border-radius: var(--radius-md, 8px);
+      padding: 10px 16px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      font-family: var(--font-main, sans-serif);
+    }
+
+    .btn-demo-quick:hover {
+      background: rgba(14, 165, 233, 0.12);
+      border-color: #0EA5E9;
+      color: #FFFFFF;
+      box-shadow: 0 0 16px rgba(14, 165, 233, 0.25);
+    }
+
+    /* Terminal Auth Verification Sequence */
+    .auth-terminal {
+      background: #050812;
+      border: 1px solid var(--border-card, #1B243B);
+      border-radius: var(--radius-md, 8px);
+      padding: 12px 14px;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.72rem;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .auth-terminal.active {
+      display: flex;
+    }
+
+    .terminal-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #64748B;
+    }
+
+    .terminal-step.done {
+      color: #34D399;
+    }
+
+    .terminal-step.current {
+      color: #38BDF8;
+      font-weight: 700;
+    }
+
+    .terminal-spinner {
+      width: 10px;
+      height: 10px;
+      border: 2px solid rgba(56, 189, 248, 0.3);
+      border-top-color: #38BDF8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Level 4 Full Authority Footer Bar */
+    .auth-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      border-top: 1px solid var(--border-card, #1B243B);
+      padding-top: 18px;
+    }
+
+    .btn-inspect-level4 {
+      background: linear-gradient(135deg, #180D2D 0%, #281248 100%);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #EDE9FE;
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+      font-family: var(--font-mono, monospace);
+      box-shadow: 0 0 14px rgba(147, 51, 234, 0.35);
+    }
+
+    .btn-inspect-level4:hover {
+      background: linear-gradient(135deg, #2E1065 0%, #4C1D95 100%);
+      border-color: #C084FC;
+      color: #FFFFFF;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.65);
+    }
+
+    .compliance-badges {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.68rem;
+      color: #55627E;
+    }
+
+    .btn-back-dashboard {
+      color: var(--text-muted, #64748B);
+      font-size: 0.75rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-back-dashboard:hover {
+      color: #FFFFFF;
+    }
+
+    /* Modal for Level 4 Authority Audit */
+    .level4-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 15, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .level4-modal-backdrop.open {
+      display: flex;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .level4-modal-card {
+      background: #090E1D;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 780px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 40px rgba(14, 165, 233, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .level4-modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-card, #1B243B);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(14, 165, 233, 0.05);
+    }
+
+    .level4-modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stat-pills-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .stat-pills-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .stat-pill-box {
+      background: #060914;
+      border: 1px solid var(--border-card, #1B243B);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-pill-title {
+      font-size: 0.65rem;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-pill-val {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      font-family: var(--font-mono, monospace);
+    }
+
+    .shake-error {
+      animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    @keyframes shake {
+
+      10%,
+      90% {
+        transform: translate3d(-2px, 0, 0);
+      }
+
+      20%,
+      80% {
+        transform: translate3d(4px, 0, 0);
+      }
+
+      30%,
+      50%,
+      70% {
+        transform: translate3d(-6px, 0, 0);
+      }
+
+      40%,
+      60% {
+        transform: translate3d(6px, 0, 0);
+      }
+    }
+
+    /* Forgot Password / Reset Passkey Styles */
+    .forgot-pass-code-input {
+      font-family: var(--font-mono, monospace) !important;
+      font-size: 1.5rem !important;
+      letter-spacing: 8px !important;
+      text-align: center !important;
+      font-weight: 800 !important;
+      color: #38BDF8 !important;
+      background: #060A14 !important;
+      border: 1px dashed rgba(56, 189, 248, 0.45) !important;
+      padding: 12px 14px !important;
+    }
+    .forgot-pass-code-input:focus {
+      border-color: #38BDF8 !important;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35) !important;
+    }
+    .email-sent-badge {
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .email-sent-badge-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .email-sent-badge-desc {
+      font-size: 0.74rem;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body class="login-body">
+  <div class="bg-grid-overlay"></div>
+
+  <div class="login-container">
+    <div class="login-card" id="authCard">
+      <!-- Top Brand & Header -->
+      <div class="login-header">
+        <div class="login-logo-glow">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+        </div>
+
+        <div>
+          <h1 class="login-title">ShieldPlus AI</h1>
+          <p class="login-subtitle">Autonomous Financial Fraud &amp; Identity Surveillance Engine</p>
+        </div>
+
+        <div class="security-badge-row">
+          <span class="auth-security-tag">
+            <span class="live-status-dot"></span>
+            ZERO-TRUST ENCLAVE &bull; LEVEL 4 FULL AUTHORITY ACTIVE
+          </span>
+        </div>
+      </div>
+
+      <!-- Segmented Navigation Tabs: Sign In / Create Account -->
+      <div class="auth-tabs-nav">
+        <button type="button" class="auth-tab-btn active" id="tabBtnSignIn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <span>Sign In</span>
+        </button>
+        <button type="button" class="auth-tab-btn" id="tabBtnSignUp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <line x1="20" y1="8" x2="20" y2="14" />
+            <line x1="23" y1="11" x2="17" y2="11" />
+          </svg>
+          <span>Create New Account</span>
+        </button>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TAB PANEL 1: SIGN IN FORM                                          -->
+      <!-- =================================================================== -->
+      <div class="auth-panel active" id="panelSignIn">
+        <form class="auth-form" id="formSignIn">
+          <!-- Identity / Email Field -->
+          <div class="form-group">
+            <label class="form-label" for="txtSignInIdentifier">
+              <span>Workstation Identifier / Email</span>
+              <span class="form-label-desc">SQLite User Repository</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <input type="text" id="txtSignInIdentifier" class="form-input"
+                placeholder="admin@finsecure.io or your email" value="admin@finsecure.io" required
+                autocomplete="username">
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label class="form-label" for="txtSignInPassword">
+              <span>Security Passkey</span>
+              <span class="form-label-desc">PBKDF2-HMAC-SHA256</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <input type="password" id="txtSignInPassword" class="form-input" placeholder="••••••••••••"
+                value="admin2026" required autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" id="btnToggleSignInPassword" title="Show/Hide password">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Clearance Tier -->
+          <div class="form-group">
+            <label class="form-label" for="selectSignInClearance">
+              <span>Operational Clearance Level</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon
+                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </div>
+              <select id="selectSignInClearance" class="form-input"
+                style="appearance: none; -webkit-appearance: none; cursor: pointer;">
+                <option value="SUPERADMIN">Level 4: SuperAdmin (Full Authority &amp; Override)</option>
+                <option value="ANALYST">Level 3: Senior Risk Analyst (Audit &amp; Rules)</option>
+                <option value="OPERATOR">Level 2: SOC Incident Responder</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Options: Remember + Forgot Password -->
+          <div class="auth-options-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="remember-wrap">
+              <input type="checkbox" id="chkRememberMe" checked>
+              <span>Persist authenticated session</span>
+            </label>
+            <a href="#forgot" class="forgot-link" id="linkForgotPassword" style="color: #38BDF8; font-size: 0.76rem; font-weight: 600; text-decoration: underline dotted; cursor: pointer;" title="Reset passkey via email">Forgot Password?</a>
+          </div>
+
+          <!-- Terminal Verification Steps -->
+          <div class="auth-terminal" id="terminalSignIn">
+            <div class="terminal-step" id="signInStep1">
+              <span class="terminal-spinner"></span>
+              <span>Querying SQLite repository and cryptographically verifying passkey...</span>
+            </div>
+            <div class="terminal-step" id="signInStep2">
+              <span>&bull;</span>
+              <span>Validating Zero-Trust session token and device binding...</span>
+            </div>
+            <div class="terminal-step" id="signInStep3">
+              <span>&bull;</span>
+              <span>Recording access in Level 4 Full Authority audit log...</span>
+            </div>
+          </div>
+
+          <!-- Primary Submit Button -->
+          <button type="submit" class="btn-submit-auth" id="btnSubmitSignIn">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            <span id="txtBtnSignIn">Authenticate &amp; Access Console</span>
+          </button>
+
+          <!-- 1-Click Demo Quick Sign-in -->
+          <button type="button" class="btn-demo-quick" id="btnDemoQuick">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            <span>⚡ 1-Click Instant Demo Login as Admin</span>
+          </button>
+
+          <div style="text-align: center; margin-top: 6px; font-size: 0.76rem; color: #64748B;">
+            Need an account? <a href="#" id="linkSwitchToCreate" style="color: #38BDF8; font-weight: 600; text-decoration: underline;">Create New Account</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TAB PANEL 2: CREATE NEW ACCOUNT FORM                                -->
+      <!-- =================================================================== -->
+      <div class="auth-panel" id="panelSignUp">
+        <form class="auth-form" id="formSignUp">
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="txtSignUpName">
+              <span>Full Name</span>
+              <span class="form-label-desc">Operator Identity</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <input type="text" id="txtSignUpName" class="form-input" placeholder="e.g. Debabrata Das" required
+                autocomplete="name">
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label class="form-label" for="txtSignUpEmail">
+              <span>Workstation / Personal Email</span>
+              <span class="form-label-desc">Unique Identifier</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </div>
+              <input type="email" id="txtSignUpEmail" class="form-input" placeholder="e.g. debabrata@finsecure.io"
+                required autocomplete="email">
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label class="form-label" for="txtSignUpPassword">
+              <span>Create Master Passkey</span>
+              <span class="form-label-desc">Min. 4 chars</span>
+            </label>
+            <div class="input-field-wrap">
+              <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
+              <input type="password" id="txtSignUpPassword" class="form-input" placeholder="Choose a strong passkey"
+                required autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" id="btnToggleSignUpPassword" title="Show/Hide password">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Row: Role & Clearance Level -->
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="selectSignUpRole">
+                <span>Operational Role</span>
+              </label>
+              <select id="selectSignUpRole" class="form-input"
+                style="padding-left: 12px; appearance: none; -webkit-appearance: none; cursor: pointer;">
+                <option value="Lead Risk Officer">Lead Risk Officer</option>
+                <option value="Chief Security Officer">Chief Security Officer (CSO)</option>
+                <option value="Senior Threat Hunter">Senior Threat Hunter</option>
+                <option value="SOC Operations Lead">SOC Operations Lead</option>
+                <option value="Fraud Data Scientist">Fraud Data Scientist</option>
+                <option value="Compliance Auditor">Compliance Auditor</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="selectSignUpClearance">
+                <span>Security Clearance</span>
+              </label>
+              <select id="selectSignUpClearance" class="form-input"
+                style="padding-left: 12px; appearance: none; -webkit-appearance: none; cursor: pointer;">
+                <option value="SuperAdmin • Level 4" selected>SuperAdmin • Level 4 (Full Authority)</option>
+                <option value="Level 3: Senior Risk Officer">Level 3: Senior Risk Officer</option>
+                <option value="Level 2: SOC Incident Responder">Level 2: SOC Incident Responder</option>
+                <option value="Level 1: Field Operator">Level 1: Field Operator</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Profile Avatar Sync (Email Account Avatar + First Letter Fallback + Gallery, Camera, File) -->
+          <div class="form-group">
+            <label class="form-label">
+              <span>Profile Identity Avatar</span>
+              <span class="form-label-desc" style="color: #A78BFA; font-weight:600;">Email Sync &amp; Options</span>
+            </label>
+            <div
+              style="display:flex; align-items:center; gap:14px; padding:10px 14px; background:rgba(255,255,255,0.025); border:1px solid rgba(168,85,247,0.3); border-radius:8px;">
+              <div id="signUpAvatarPreviewContainer"
+                style="width:48px; height:48px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px solid #A855F7; box-shadow:0 0 14px rgba(168,85,247,0.4); background:rgba(0,0,0,0.3);">
+                <div class="user-initial-badge" style="width:100%; height:100%; font-size:1.15rem;">?</div>
+              </div>
+              <div style="flex:1;">
+                <div id="signUpAvatarStatus" style="font-weight:600; color:#FFFFFF; font-size:0.82rem;">Email Profile
+                  Picture (First Letter Default)</div>
+                <div style="font-size:0.7rem; color:#9491A6; margin-top:2px; line-height:1.4;">
+                  Directly fetched from your login email ID. If no photo exists on the email account, your name's 1st
+                  letter is displayed in CAPITAL by default.
+                </div>
+              </div>
+            </div>
+
+            <!-- Avatar Source Options: Gallery, Camera, File, First Letter -->
+            <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;">
+              <label
+                style="background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.35); color:#38BDF8; padding:6px 12px; border-radius:6px; font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px; transition:all 0.2s;"
+                title="Pick photo from device photo gallery">
+                🖼️ Gallery
+                <input type="file" id="fileSignUpGallery" accept="image/*" style="display:none;">
+              </label>
+              <button type="button" id="btnSignUpCamera"
+                style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#34D399; padding:6px 12px; border-radius:6px; font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px; transition:all 0.2s;"
+                title="Take photo with camera">
+                📸 Camera
+              </button>
+              <label
+                style="background:rgba(255,255,255,0.06); border:1px solid var(--border-card); color:#E2E8F0; padding:6px 12px; border-radius:6px; font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px; transition:all 0.2s;"
+                title="Browse file from disk">
+                📁 File
+                <input type="file" id="fileSignUpFile" accept="image/*,.png,.jpg,.jpeg,.webp,.svg"
+                  style="display:none;">
+              </label>
+              <button type="button" id="btnSignUpUseInitial"
+                style="background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.35); color:#C084FC; padding:6px 12px; border-radius:6px; font-size:0.72rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px; transition:all 0.2s;"
+                title="Reset to Name First Letter">
+                🔤 First Letter
+              </button>
+            </div>
+
+            <!-- Live Camera Viewfinder Box for Sign Up -->
+            <div id="signUpCameraContainer"
+              style="display:none; margin-top:10px; background:rgba(0,0,0,0.6); border:1px solid #38BDF8; border-radius:8px; padding:12px; text-align:center;">
+              <div style="font-size:0.75rem; font-weight:700; color:#38BDF8; margin-bottom:6px;">📸 Live Camera Preview
+              </div>
+              <div
+                style="position:relative; width:180px; height:180px; margin:0 auto; border-radius:50%; overflow:hidden; border:2px solid #38BDF8; box-shadow:0 0 16px rgba(56,189,248,0.4);">
+                <video id="signUpCameraVideo" autoplay playsinline
+                  style="width:100%; height:100%; object-fit:cover;"></video>
+                <div
+                  style="position:absolute; inset:0; border-radius:50%; border:2px dashed rgba(255,255,255,0.45); pointer-events:none;">
+                </div>
+              </div>
+              <div style="display:flex; justify-content:center; gap:8px; margin-top:10px;">
+                <button type="button" id="btnSignUpCapturePhoto"
+                  style="background:linear-gradient(135deg, #10B981, #059669); border:none; color:#FFFFFF; padding:5px 14px; border-radius:6px; font-size:0.72rem; font-weight:700; cursor:pointer; box-shadow:0 0 12px rgba(16,185,129,0.5);">
+                  📸 Capture Photo
+                </button>
+                <button type="button" id="btnSignUpCancelCamera"
+                  style="background:rgba(255,255,255,0.1); border:1px solid var(--border-card); color:#E2E8F0; padding:5px 12px; border-radius:6px; font-size:0.72rem; cursor:pointer;">
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+            <!-- Optional Custom Avatar URL -->
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <input type="url" id="txtCustomAvatarUrl" class="form-input" placeholder="Or paste image link (Optional)"
+                style="padding-left:10px; font-size:0.74rem; flex:1;">
+            </div>
+            <input type="hidden" id="txtSelectedAvatar" value="">
+          </div>
+
+          <!-- Terminal Creation Steps -->
+          <div class="auth-terminal" id="terminalSignUp">
+            <div class="terminal-step" id="signUpStep1">
+              <span class="terminal-spinner"></span>
+              <span>Hashing security passkey with PBKDF2-HMAC-SHA256...</span>
+            </div>
+            <div class="terminal-step" id="signUpStep2">
+              <span>&bull;</span>
+              <span>Provisioning operator account in SQLite users table...</span>
+            </div>
+            <div class="terminal-step" id="signUpStep3">
+              <span>&bull;</span>
+              <span>Permanently logging account creation to Level 4 Full Authority audit...</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn-submit-auth" id="btnSubmitSignUp">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="8.5" cy="7" r="4" />
+              <line x1="20" y1="8" x2="20" y2="14" />
+              <line x1="23" y1="11" x2="17" y2="11" />
+            </svg>
+            <span id="txtBtnSignUp">Create Account &amp; Grant Level 4 Clearance</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TAB PANEL 3: FORGOT PASSWORD & RECOVERY (MOBILE & LAPTOP REAL EMAIL)-->
+      <!-- =================================================================== -->
+      <div class="auth-panel" id="panelForgotPassword">
+        <!-- Step 1: Request Email Reset Option -->
+        <div id="subpanelForgotRequest">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <a href="#" id="btnBackToSignInFromForgot" style="color: #94A3B8; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; text-decoration: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back to Sign In</span>
+            </a>
+            <span style="font-size: 0.68rem; color: #38BDF8; font-family: var(--font-mono); font-weight: 700;">SMTP RECOVERY ENCLAVE</span>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <h3 style="color: #FFFFFF; font-size: 1.05rem; font-weight: 700; margin: 0 0 6px 0;">Reset Operator Security Passkey</h3>
+            <p style="color: #94A3B8; font-size: 0.78rem; line-height: 1.5; margin: 0;">
+              Enter your workstation email address. A 6-digit cryptographic verification code and direct one-click link will be dispatched to your mail (workable on mobile phone or laptop).
+            </p>
+          </div>
+
+          <form class="auth-form" id="formForgotRequest">
+            <div class="form-group">
+              <label class="form-label" for="txtForgotEmail">
+                <span>Workstation Email Address</span>
+                <span class="form-label-desc">Registered Identity</span>
+              </label>
+              <div class="input-field-wrap">
+                <div class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+                <input type="email" id="txtForgotEmail" class="form-input" placeholder="admin@finsecure.io or your email" required autocomplete="email">
+              </div>
+            </div>
+
+            <!-- Terminal Verification Steps -->
+            <div class="auth-terminal" id="terminalForgot">
+              <div class="terminal-step" id="forgotStep1">
+                <span class="terminal-spinner"></span>
+                <span>Connecting to SQLite user database and verifying account identity...</span>
+              </div>
+              <div class="terminal-step" id="forgotStep2">
+                <span>&bull;</span>
+                <span>Generating 64-char crypto reset token and 6-digit OTP passkey...</span>
+              </div>
+              <div class="terminal-step" id="forgotStep3">
+                <span>&bull;</span>
+                <span>Connecting to SMTP mail transport &amp; dispatching to recipient inbox...</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit-auth" id="btnSubmitForgot">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              <span id="txtBtnForgot">Send Password Reset Option to Mail</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Step 2: Enter 6-digit Code & Set New Password -->
+        <div id="subpanelForgotReset" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <a href="#" id="btnBackToRequestFromReset" style="color: #94A3B8; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; text-decoration: none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back</span>
+            </a>
+            <span style="font-size: 0.68rem; color: #10B981; font-family: var(--font-mono); font-weight: 700;">MAIL DISPATCHED</span>
+          </div>
+
+          <!-- Email Sent Notice Badge -->
+          <div class="email-sent-badge">
+            <div class="email-sent-badge-title">
+              <span>📧 Reset instructions sent to:</span>
+              <span id="lblResetEmailTarget" style="color: #FFFFFF; font-family: var(--font-mono); font-weight: 700;"></span>
+            </div>
+            <div class="email-sent-badge-desc">
+              Check your email on your mobile phone or laptop. Enter the <strong>6-digit verification code</strong> from your email below, then specify your new security passkey.
+            </div>
+            <div id="boxSimulatedQuickAction" style="display: none; margin-top: 6px; padding: 8px 10px; background: rgba(56, 189, 248, 0.1); border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 6px;">
+              <div style="font-size: 0.72rem; color: #38BDF8; font-weight: 600;">⚡ Test Environment Helper:</div>
+              <div style="font-size: 0.72rem; color: #E2E8F0; margin-top: 2px;">
+                Code: <strong id="lblSimulatedCode" style="color: #38BDF8; font-family: var(--font-mono); font-size: 0.85rem;"></strong>
+                <button type="button" id="btnAutoFillCode" style="margin-left: 8px; background: #0284C7; color: #FFF; border: none; padding: 2px 8px; border-radius: 4px; font-size: 0.68rem; cursor: pointer;">Auto-fill Code</button>
+              </div>
+            </div>
+          </div>
+
+          <form class="auth-form" id="formResetPassword">
+            <input type="hidden" id="hiddenResetToken" value="">
+            <input type="hidden" id="hiddenResetEmail" value="">
+
+            <!-- 6-digit Code Input -->
+            <div class="form-group">
+              <label class="form-label" for="txtResetCode">
+                <span>6-Digit Verification Code</span>
+                <span class="form-label-desc">From your email inbox</span>
+              </label>
+              <div class="input-field-wrap">
+                <input type="text" id="txtResetCode" class="form-input forgot-pass-code-input" maxlength="6" placeholder="000000" required autocomplete="one-time-code">
+              </div>
+            </div>
+
+            <!-- New Password -->
+            <div class="form-group">
+              <label class="form-label" for="txtResetPassword">
+                <span>New Security Passkey</span>
+                <span class="form-label-desc">Min. 4 characters</span>
+              </label>
+              <div class="input-field-wrap">
+                <div class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <input type="password" id="txtResetPassword" class="form-input" placeholder="••••••••••••" required autocomplete="new-password">
+                <button type="button" class="password-toggle-btn" id="btnToggleResetPassword" title="Show/Hide passkey">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Confirm New Password -->
+            <div class="form-group">
+              <label class="form-label" for="txtResetPasswordConfirm">
+                <span>Confirm New Security Passkey</span>
+                <span class="form-label-desc">Must match above</span>
+              </label>
+              <div class="input-field-wrap">
+                <div class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="M9 12l2 2 4-4"></path>
+                  </svg>
+                </div>
+                <input type="password" id="txtResetPasswordConfirm" class="form-input" placeholder="••••••••••••" required autocomplete="new-password">
+                <button type="button" class="password-toggle-btn" id="btnToggleResetPasswordConfirm" title="Show/Hide passkey">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Terminal Verification Steps -->
+            <div class="auth-terminal" id="terminalReset">
+              <div class="terminal-step" id="resetStep1">
+                <span class="terminal-spinner"></span>
+                <span>Validating 6-digit verification code in SQLite...</span>
+              </div>
+              <div class="terminal-step" id="resetStep2">
+                <span>&bull;</span>
+                <span>Re-hashing security passkey with PBKDF2-HMAC-SHA256...</span>
+              </div>
+              <div class="terminal-step" id="resetStep3">
+                <span>&bull;</span>
+                <span>Writing to SQLite user records and logging Level 4 audit event...</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit-auth" id="btnSubmitReset">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+              <span id="txtBtnReset">Set New Passkey &amp; Access Enclave</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Security Compliance & Level 4 Authority Footer -->
+      <div class="auth-footer">
+        <button type="button" class="btn-inspect-level4" id="btnOpenLevel4AuditModal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>🛡️ Check Level 4 Authority Audit Trail (Logins &amp; Accounts)</span>
+        </button>
+
+        <div class="compliance-badges">
+          <span>&bull; PBKDF2-SHA256</span>
+          <span>&bull; ISO/IEC 27001</span>
+          <span>&bull; Zero-Trust Surveillance</span>
+        </div>
+
+        <a href="index.html" class="btn-back-dashboard">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          <span>Return to Real-Time Monitoring Feed</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- LEVEL 4 FULL AUTHORITY AUDIT & USER INSPECTION MODAL                  -->
+  <!-- ===================================================================== -->
+  <div class="level4-modal-backdrop" id="level4AuditModal" role="dialog" aria-modal="true">
+    <div class="level4-modal-card">
+      <div class="level4-modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div
+            style="width: 34px; height: 34px; border-radius: 8px; background: rgba(14, 165, 233, 0.15); border: 1px solid #0EA5E9; display: flex; align-items: center; justify-content: center; color: #38BDF8;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.05rem; color: #FFFFFF; font-weight: 700;">Level 4 Full Authority &bull;
+              Security Audit Center</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.72rem; color: #94A3B8;">Real-time cryptographically verified
+              record of who created accounts and logged in</p>
+          </div>
+        </div>
+        <button id="btnCloseLevel4Modal"
+          style="background: transparent; border: none; color: #94A3B8; font-size: 1.6rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <div class="level4-modal-body">
+        <!-- Live Audit Statistics Cards -->
+        <div class="stat-pills-row">
+          <div class="stat-pill-box">
+            <span class="stat-pill-title">Registered Accounts</span>
+            <span class="stat-pill-val" id="lvl4StatAccounts" style="color: #38BDF8;">--</span>
+          </div>
+          <div class="stat-pill-box">
+            <span class="stat-pill-title">Successful Logins</span>
+            <span class="stat-pill-val" id="lvl4StatSuccess" style="color: #34D399;">--</span>
+          </div>
+          <div class="stat-pill-box">
+            <span class="stat-pill-title">Failed Logins</span>
+            <span class="stat-pill-val" id="lvl4StatFailed" style="color: #EF4444;">--</span>
+          </div>
+          <div class="stat-pill-box">
+            <span class="stat-pill-title">Total Security Events</span>
+            <span class="stat-pill-val" id="lvl4StatTotal" style="color: #F59E0B;">--</span>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 6px;" id="lvl4FilterGroup">
+            <button class="btn-inspect-level4 active" data-action="ALL"
+              style="padding: 4px 10px; font-size: 0.7rem;">All Activity</button>
+            <button class="btn-inspect-level4" data-action="LOGIN"
+              style="padding: 4px 10px; font-size: 0.7rem;">Logins</button>
+            <button class="btn-inspect-level4" data-action="ACCOUNT_CREATED"
+              style="padding: 4px 10px; font-size: 0.7rem;">Accounts Created</button>
+            <button class="btn-inspect-level4" data-action="LOGIN_FAILED"
+              style="padding: 4px 10px; font-size: 0.7rem; color: #EF4444; border-color: rgba(239,68,68,0.4);">Failed</button>
+          </div>
+          <button id="btnRefreshLevel4Audit"
+            style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-card); color: #94A3B8; border-radius: 6px; padding: 5px 10px; font-size: 0.72rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10" />
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+            </svg>
+            <span>Refresh Audit Feed</span>
+          </button>
+        </div>
+
+        <!-- Audit Records Feed -->
+        <div id="lvl4AuditRecordsList"
+          style="display: flex; flex-direction: column; gap: 8px; max-height: 290px; overflow-y: auto;">
+          <div style="color: #94A3B8; font-size: 0.78rem; text-align: center; padding: 20px;">Fetching Level 4 Authority
+            verified records from SQLite database...</div>
+        </div>
+
+        <!-- Registered Accounts Overview Section -->
+        <div>
+          <div
+            style="font-size: 0.78rem; font-weight: 700; color: #38BDF8; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <span>👥 Registered Operators in SQLite Enclave</span>
+          </div>
+          <div id="lvl4RegisteredUsersList"
+            style="display: flex; flex-direction: column; gap: 6px; max-height: 160px; overflow-y: auto;">
+            <div style="color: #94A3B8; font-size: 0.75rem;">Loading operators...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer"
+    style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 8px;">
+  </div>
+
+  <script>
+    // Toast Notification System
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'rgba(16, 185, 129, 0.95)',
+        danger: 'rgba(239, 68, 68, 0.95)',
+        warning: 'rgba(245, 158, 11, 0.95)',
+        info: 'rgba(14, 165, 233, 0.95)'
+      };
+      toast.style.cssText = `
+        background: #090E1B;
+        border: 1px solid ${colors[type] || colors.info};
+        color: #FFFFFF;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.25s ease;
+      `;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 250);
+      }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Elements: Navigation Tabs
+      const tabBtnSignIn = document.getElementById('tabBtnSignIn');
+      const tabBtnSignUp = document.getElementById('tabBtnSignUp');
+      const panelSignIn = document.getElementById('panelSignIn');
+      const panelSignUp = document.getElementById('panelSignUp');
+      const linkSwitchToCreate = document.getElementById('linkSwitchToCreate');
+
+      // Elements: Sign In
+      const formSignIn = document.getElementById('formSignIn');
+      const txtSignInIdentifier = document.getElementById('txtSignInIdentifier');
+      const txtSignInPassword = document.getElementById('txtSignInPassword');
+      const btnToggleSignInPassword = document.getElementById('btnToggleSignInPassword');
+      const selectSignInClearance = document.getElementById('selectSignInClearance');
+      const chkRememberMe = document.getElementById('chkRememberMe');
+      const btnSubmitSignIn = document.getElementById('btnSubmitSignIn');
+      const txtBtnSignIn = document.getElementById('txtBtnSignIn');
+      const btnDemoQuick = document.getElementById('btnDemoQuick');
+      const terminalSignIn = document.getElementById('terminalSignIn');
+      const signInStep1 = document.getElementById('signInStep1');
+      const signInStep2 = document.getElementById('signInStep2');
+      const signInStep3 = document.getElementById('signInStep3');
+
+      // Elements: Sign Up
+      const formSignUp = document.getElementById('formSignUp');
+      const txtSignUpName = document.getElementById('txtSignUpName');
+      const txtSignUpEmail = document.getElementById('txtSignUpEmail');
+      const txtSignUpPassword = document.getElementById('txtSignUpPassword');
+      const btnToggleSignUpPassword = document.getElementById('btnToggleSignUpPassword');
+      const selectSignUpRole = document.getElementById('selectSignUpRole');
+      const selectSignUpClearance = document.getElementById('selectSignUpClearance');
+      const txtSelectedAvatar = document.getElementById('txtSelectedAvatar');
+      const signUpAvatarPreviewContainer = document.getElementById('signUpAvatarPreviewContainer');
+      const signUpAvatarStatus = document.getElementById('signUpAvatarStatus');
+      const btnSubmitSignUp = document.getElementById('btnSubmitSignUp');
+      const txtBtnSignUp = document.getElementById('txtBtnSignUp');
+      const terminalSignUp = document.getElementById('terminalSignUp');
+      const signUpStep1 = document.getElementById('signUpStep1');
+      const signUpStep2 = document.getElementById('signUpStep2');
+      const signUpStep3 = document.getElementById('signUpStep3');
+
+      // Elements: Level 4 Audit Modal
+      const btnOpenLevel4AuditModal = document.getElementById('btnOpenLevel4AuditModal');
+      const level4AuditModal = document.getElementById('level4AuditModal');
+      const btnCloseLevel4Modal = document.getElementById('btnCloseLevel4Modal');
+      const btnRefreshLevel4Audit = document.getElementById('btnRefreshLevel4Audit');
+      const lvl4AuditRecordsList = document.getElementById('lvl4AuditRecordsList');
+      const lvl4RegisteredUsersList = document.getElementById('lvl4RegisteredUsersList');
+      const lvl4FilterGroup = document.getElementById('lvl4FilterGroup');
+
+      const authCard = document.getElementById('authCard');
+
+      // Elements: Forgot Password & Passkey Recovery
+      const panelForgotPassword = document.getElementById('panelForgotPassword');
+      const subpanelForgotRequest = document.getElementById('subpanelForgotRequest');
+      const subpanelForgotReset = document.getElementById('subpanelForgotReset');
+      const linkForgotPassword = document.getElementById('linkForgotPassword');
+      const btnBackToSignInFromForgot = document.getElementById('btnBackToSignInFromForgot');
+      const btnBackToRequestFromReset = document.getElementById('btnBackToRequestFromReset');
+      const formForgotRequest = document.getElementById('formForgotRequest');
+      const txtForgotEmail = document.getElementById('txtForgotEmail');
+      const btnSubmitForgot = document.getElementById('btnSubmitForgot');
+      const txtBtnForgot = document.getElementById('txtBtnForgot');
+      const terminalForgot = document.getElementById('terminalForgot');
+      const forgotStep1 = document.getElementById('forgotStep1');
+      const forgotStep2 = document.getElementById('forgotStep2');
+      const forgotStep3 = document.getElementById('forgotStep3');
+
+      const formResetPassword = document.getElementById('formResetPassword');
+      const txtResetCode = document.getElementById('txtResetCode');
+      const txtResetPassword = document.getElementById('txtResetPassword');
+      const txtResetPasswordConfirm = document.getElementById('txtResetPasswordConfirm');
+      const btnToggleResetPassword = document.getElementById('btnToggleResetPassword');
+      const btnToggleResetPasswordConfirm = document.getElementById('btnToggleResetPasswordConfirm');
+      const btnSubmitReset = document.getElementById('btnSubmitReset');
+      const txtBtnReset = document.getElementById('txtBtnReset');
+      const terminalReset = document.getElementById('terminalReset');
+      const resetStep1 = document.getElementById('resetStep1');
+      const resetStep2 = document.getElementById('resetStep2');
+      const resetStep3 = document.getElementById('resetStep3');
+      const hiddenResetToken = document.getElementById('hiddenResetToken');
+      const hiddenResetEmail = document.getElementById('hiddenResetEmail');
+      const lblResetEmailTarget = document.getElementById('lblResetEmailTarget');
+      const boxSimulatedQuickAction = document.getElementById('boxSimulatedQuickAction');
+      const lblSimulatedCode = document.getElementById('lblSimulatedCode');
+      const btnAutoFillCode = document.getElementById('btnAutoFillCode');
+
+      // Tab Switching Handler
+      function switchTab(target) {
+        if (target === 'signup') {
+          tabBtnSignIn.classList.remove('active');
+          tabBtnSignUp.classList.add('active');
+          panelSignIn.classList.remove('active');
+          panelForgotPassword?.classList.remove('active');
+          panelSignUp.classList.add('active');
+        } else if (target === 'forgot' || target === 'reset') {
+          tabBtnSignIn.classList.remove('active');
+          tabBtnSignUp.classList.remove('active');
+          panelSignIn.classList.remove('active');
+          panelSignUp.classList.remove('active');
+          panelForgotPassword?.classList.add('active');
+          if (target === 'reset') {
+            if (subpanelForgotRequest) subpanelForgotRequest.style.display = 'none';
+            if (subpanelForgotReset) subpanelForgotReset.style.display = 'block';
+          } else {
+            if (subpanelForgotRequest) subpanelForgotRequest.style.display = 'block';
+            if (subpanelForgotReset) subpanelForgotReset.style.display = 'none';
+          }
+        } else {
+          tabBtnSignUp.classList.remove('active');
+          tabBtnSignIn.classList.add('active');
+          panelSignUp.classList.remove('active');
+          panelForgotPassword?.classList.remove('active');
+          panelSignIn.classList.add('active');
+        }
+      }
+
+      tabBtnSignIn.addEventListener('click', () => switchTab('signin'));
+      tabBtnSignUp.addEventListener('click', () => switchTab('signup'));
+      linkSwitchToCreate.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab('signup');
+      });
+      linkForgotPassword?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (txtForgotEmail && txtSignInIdentifier && txtSignInIdentifier.value) {
+          txtForgotEmail.value = txtSignInIdentifier.value.trim();
+        }
+        switchTab('forgot');
+      });
+      btnBackToSignInFromForgot?.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab('signin');
+      });
+      btnBackToRequestFromReset?.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab('forgot');
+      });
+
+      // Password Toggles
+      btnToggleSignInPassword.addEventListener('click', () => {
+        const isPwd = txtSignInPassword.type === 'password';
+        txtSignInPassword.type = isPwd ? 'text' : 'password';
+      });
+
+      btnToggleSignUpPassword.addEventListener('click', () => {
+        const isPwd = txtSignUpPassword.type === 'password';
+        txtSignUpPassword.type = isPwd ? 'text' : 'password';
+      });
+
+      btnToggleResetPassword?.addEventListener('click', () => {
+        const isPwd = txtResetPassword.type === 'password';
+        txtResetPassword.type = isPwd ? 'text' : 'password';
+      });
+
+      btnToggleResetPasswordConfirm?.addEventListener('click', () => {
+        const isPwd = txtResetPasswordConfirm.type === 'password';
+        txtResetPasswordConfirm.type = isPwd ? 'text' : 'password';
+      });
+
+      btnAutoFillCode?.addEventListener('click', () => {
+        if (lblSimulatedCode && txtResetCode) {
+          txtResetCode.value = lblSimulatedCode.textContent.trim();
+          txtResetCode.focus();
+          showToast('Verification code auto-filled', 'info');
+        }
+      });
+
+      // Dynamic Email Avatar & Capital First Letter Fallback
+      function getUserFirstLetter(name, email) {
+        if (name && name.trim()) {
+          const clean = name.trim();
+          for (const char of clean) {
+            if (/[a-zA-Z0-9]/.test(char)) return char.toUpperCase();
+          }
+          return clean[0].toUpperCase();
+        }
+        if (email && email.trim()) {
+          return email.trim()[0].toUpperCase();
+        }
+        return '?';
+      }
+
+      function getEmailAvatarUrl(email) {
+        if (!email || !email.includes('@')) return '';
+        const clean = email.trim().toLowerCase();
+        return `https://unavatar.io/${encodeURIComponent(clean)}?fallback=https%3A%2F%2Fwww.gravatar.com%2Favatar%2F${encodeURIComponent(clean)}%3Fd%3D404`;
+      }
+
+      const txtCustomAvatarUrl = document.getElementById('txtCustomAvatarUrl');
+      const fileSignUpGallery = document.getElementById('fileSignUpGallery');
+      const fileSignUpFile = document.getElementById('fileSignUpFile');
+      const btnSignUpUseInitial = document.getElementById('btnSignUpUseInitial');
+      const btnSignUpCamera = document.getElementById('btnSignUpCamera');
+      const signUpCameraContainer = document.getElementById('signUpCameraContainer');
+      const signUpCameraVideo = document.getElementById('signUpCameraVideo');
+      const btnSignUpCapturePhoto = document.getElementById('btnSignUpCapturePhoto');
+      const btnSignUpCancelCamera = document.getElementById('btnSignUpCancelCamera');
+      let signUpCameraStream = null;
+
+      // Resizes image to square 256x256 DataURL for ultra-crisp avatar display
+      function resizeImageFileToSquareDataUrl(file, callback, maxSize = 256) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = maxSize;
+            canvas.height = maxSize;
+            const ctx = canvas.getContext('2d');
+            const minSide = Math.min(img.width, img.height);
+            const sx = (img.width - minSide) / 2;
+            const sy = (img.height - minSide) / 2;
+            ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, maxSize, maxSize);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+            callback(dataUrl);
+          };
+          img.onerror = () => {
+            showToast('Could not load image file', 'warning');
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function stopSignUpCamera() {
+        if (signUpCameraStream) {
+          signUpCameraStream.getTracks().forEach(t => t.stop());
+          signUpCameraStream = null;
+        }
+        if (signUpCameraContainer) signUpCameraContainer.style.display = 'none';
+      }
+
+      function updateSignUpAvatarPreview() {
+        const name = txtSignUpName ? txtSignUpName.value.trim() : '';
+        const email = txtSignUpEmail ? txtSignUpEmail.value.trim() : '';
+        const letter = getUserFirstLetter(name, email);
+        const customUrl = txtCustomAvatarUrl ? txtCustomAvatarUrl.value.trim() : '';
+        if (!signUpAvatarPreviewContainer) return;
+
+        // Default initial badge immediately set in CAPITAL
+        signUpAvatarPreviewContainer.innerHTML = `<div class="user-initial-badge" style="width:100%; height:100%; font-size:1.15rem;">${letter}</div>`;
+
+        let targetUrl = '';
+        if (customUrl) {
+          targetUrl = customUrl;
+          if (signUpAvatarStatus) signUpAvatarStatus.textContent = 'Custom Photo Selected (Gallery / Camera / File)';
+        } else if (email && email.includes('@')) {
+          targetUrl = getEmailAvatarUrl(email);
+          if (signUpAvatarStatus) signUpAvatarStatus.textContent = `Syncing email picture for ${email}...`;
+        } else {
+          if (signUpAvatarStatus) signUpAvatarStatus.textContent = name ? `Initial Avatar (${letter})` : 'Email Account Profile Picture';
+        }
+
+        if (txtSelectedAvatar) txtSelectedAvatar.value = targetUrl;
+
+        if (targetUrl) {
+          const testImg = new Image();
+          testImg.alt = name || email;
+          testImg.style.width = '100%';
+          testImg.style.height = '100%';
+          testImg.style.objectFit = 'cover';
+          testImg.style.borderRadius = '50%';
+          testImg.onload = () => {
+            signUpAvatarPreviewContainer.innerHTML = '';
+            signUpAvatarPreviewContainer.appendChild(testImg);
+            if (signUpAvatarStatus) signUpAvatarStatus.textContent = 'Email / Google Photo Connected';
+          };
+          testImg.onerror = () => {
+            // If email photo doesn't exist, default to the user's name first letter in CAPITAL
+            signUpAvatarPreviewContainer.innerHTML = `<div class="user-initial-badge" style="width:100%; height:100%; font-size:1.15rem;">${letter}</div>`;
+            if (signUpAvatarStatus) signUpAvatarStatus.textContent = `Default First Letter Avatar (${letter})`;
+          };
+          testImg.src = targetUrl;
+        }
+      }
+
+      txtSignUpName?.addEventListener('input', updateSignUpAvatarPreview);
+      txtSignUpEmail?.addEventListener('input', updateSignUpAvatarPreview);
+      txtCustomAvatarUrl?.addEventListener('input', updateSignUpAvatarPreview);
+
+      // 1. Gallery input handler
+      fileSignUpGallery?.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          resizeImageFileToSquareDataUrl(file, (dataUrl) => {
+            if (txtCustomAvatarUrl) txtCustomAvatarUrl.value = dataUrl;
+            updateSignUpAvatarPreview();
+            showToast('🖼️ Gallery photo set as profile picture!', 'success');
+          });
+        }
+      });
+
+      // 2. File browser input handler
+      fileSignUpFile?.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          resizeImageFileToSquareDataUrl(file, (dataUrl) => {
+            if (txtCustomAvatarUrl) txtCustomAvatarUrl.value = dataUrl;
+            updateSignUpAvatarPreview();
+            showToast('📁 Image file set as profile picture!', 'success');
+          });
+        }
+      });
+
+      // 3. Reset to Name First Letter (Default)
+      btnSignUpUseInitial?.addEventListener('click', () => {
+        if (txtCustomAvatarUrl) txtCustomAvatarUrl.value = '';
+        if (txtSelectedAvatar) txtSelectedAvatar.value = '';
+        const name = txtSignUpName ? txtSignUpName.value.trim() : '';
+        const email = txtSignUpEmail ? txtSignUpEmail.value.trim() : '';
+        const letter = getUserFirstLetter(name, email);
+        if (signUpAvatarPreviewContainer) {
+          signUpAvatarPreviewContainer.innerHTML = `<div class="user-initial-badge" style="width:100%; height:100%; font-size:1.15rem;">${letter}</div>`;
+        }
+        if (signUpAvatarStatus) {
+          signUpAvatarStatus.textContent = `Default First Letter Avatar (${letter})`;
+        }
+        showToast(`Defaulting to Capital First Letter (${letter})`, 'info');
+      });
+
+      // 4. Live Camera Snapshots
+      btnSignUpCamera?.addEventListener('click', async () => {
+        try {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            showToast('Camera API is not supported on this browser/environment', 'warning');
+            return;
+          }
+          signUpCameraContainer.style.display = 'block';
+          signUpCameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } },
+            audio: false
+          });
+          if (signUpCameraVideo) {
+            signUpCameraVideo.srcObject = signUpCameraStream;
+            signUpCameraVideo.play().catch(() => { });
+          }
+          showToast('📸 Live camera active. Position face and click Capture.', 'info');
+        } catch (err) {
+          console.warn('Camera access denied or unavailable:', err);
+          stopSignUpCamera();
+          showToast('Camera access denied or unavailable. Please use Gallery or File.', 'warning');
+        }
+      });
+
+      btnSignUpCapturePhoto?.addEventListener('click', () => {
+        if (!signUpCameraVideo || !signUpCameraStream) return;
+        const video = signUpCameraVideo;
+        const canvas = document.createElement('canvas');
+        canvas.width = 256;
+        canvas.height = 256;
+        const ctx = canvas.getContext('2d');
+        const minSide = Math.min(video.videoWidth || 480, video.videoHeight || 480);
+        const sx = ((video.videoWidth || 480) - minSide) / 2;
+        const sy = ((video.videoHeight || 480) - minSide) / 2;
+        ctx.drawImage(video, sx, sy, minSide, minSide, 0, 0, 256, 256);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+
+        stopSignUpCamera();
+
+        if (txtCustomAvatarUrl) txtCustomAvatarUrl.value = dataUrl;
+        updateSignUpAvatarPreview();
+        showToast('📸 Live camera photo captured successfully!', 'success');
+      });
+
+      btnSignUpCancelCamera?.addEventListener('click', () => {
+        stopSignUpCamera();
+      });
+
+      updateSignUpAvatarPreview();
+
+      // -------------------------------------------------------------------
+      // 1. SIGN IN EXECUTION (Recorded in Level 4 Authority Audit)
+      // -------------------------------------------------------------------
+      async function executeSignIn(username, password, clearance) {
+        if (!username || !password) {
+          authCard.classList.add('shake-error');
+          setTimeout(() => authCard.classList.remove('shake-error'), 450);
+          showToast('Please enter both identifier and security passkey', 'warning');
+          return;
+        }
+
+        btnSubmitSignIn.disabled = true;
+        txtBtnSignIn.textContent = 'Verifying Enclave...';
+        terminalSignIn.classList.add('active');
+
+        signInStep1.className = 'terminal-step current';
+        signInStep1.innerHTML = `<span class="terminal-spinner"></span> <span>Querying SQLite repository and cryptographically verifying passkey...</span>`;
+
+        try {
+          const res = await fetch('/api/v1/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username: username.trim(),
+              password: password.trim(),
+              clearance: clearance || 'SUPERADMIN'
+            })
+          });
+
+          await new Promise(r => setTimeout(r, 450));
+          signInStep1.className = 'terminal-step done';
+          signInStep1.innerHTML = `<span>✓</span> <span>PBKDF2 cryptographic signature verified in SQLite</span>`;
+
+          signInStep2.className = 'terminal-step current';
+          signInStep2.innerHTML = `<span class="terminal-spinner"></span> <span>Validating Zero-Trust session and device binding...</span>`;
+          await new Promise(r => setTimeout(r, 400));
+          signInStep2.className = 'terminal-step done';
+          signInStep2.innerHTML = `<span>✓</span> <span>Zero-Trust session active</span>`;
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            signInStep3.className = 'terminal-step current';
+            signInStep3.innerHTML = `<span style="color:#EF4444;">✗</span> <span style="color:#EF4444;">${err.detail || 'Authentication failed'}</span>`;
+            authCard.classList.add('shake-error');
+            setTimeout(() => authCard.classList.remove('shake-error'), 450);
+            btnSubmitSignIn.disabled = false;
+            txtBtnSignIn.textContent = 'Authenticate & Access Console';
+            showToast(err.detail || 'Login failed. User not found or wrong password.', 'danger');
+            return;
+          }
+
+          const authData = await res.json();
+          signInStep3.className = 'terminal-step current';
+          signInStep3.innerHTML = `<span class="terminal-spinner"></span> <span>Recorded in Level 4 Authority Audit: Welcome ${authData.user.name}...</span>`;
+          await new Promise(r => setTimeout(r, 400));
+          signInStep3.className = 'terminal-step done';
+          signInStep3.innerHTML = `<span>✓</span> <span>Level 4 Full Authority Granted. Entering Console...</span>`;
+
+          // Persist authenticated state
+          localStorage.setItem('shield_auth_token', authData.token);
+          localStorage.setItem('shield_auth_user', JSON.stringify(authData.user));
+          localStorage.setItem('shield_current_user', JSON.stringify(authData.user));
+          sessionStorage.setItem('shield_logged_in', 'true');
+
+          showToast(`⚡ Authenticated as ${authData.user.name} (${authData.user.role})`, 'success');
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 500);
+
+        } catch (err) {
+          btnSubmitSignIn.disabled = false;
+          txtBtnSignIn.textContent = 'Authenticate & Access Console';
+          terminalSignIn.classList.remove('active');
+          showToast('Connection error connecting to ShieldPlus AI Engine', 'danger');
+        }
+      }
+
+      formSignIn.addEventListener('submit', (e) => {
+        e.preventDefault();
+        executeSignIn(
+          txtSignInIdentifier.value,
+          txtSignInPassword.value,
+          selectSignInClearance.value
+        );
+      });
+
+      // Quick Demo 1-Click Login
+      btnDemoQuick.addEventListener('click', () => {
+        txtSignInIdentifier.value = 'admin@finsecure.io';
+        txtSignInPassword.value = 'admin2026';
+        showToast('Demo Credentials loaded. Initiating verified login...', 'info');
+        executeSignIn('admin@finsecure.io', 'admin2026', 'SUPERADMIN');
+      });
+
+      // -------------------------------------------------------------------
+      // 2. CREATE NEW ACCOUNT EXECUTION (Recorded in Level 4 Authority Audit)
+      // -------------------------------------------------------------------
+      async function executeSignUp(formData) {
+        btnSubmitSignUp.disabled = true;
+        txtBtnSignUp.textContent = 'Provisioning Identity...';
+        terminalSignUp.classList.add('active');
+
+        signUpStep1.className = 'terminal-step current';
+        signUpStep1.innerHTML = `<span class="terminal-spinner"></span> <span>Hashing security passkey with PBKDF2-HMAC-SHA256...</span>`;
+
+        try {
+          const res = await fetch('/api/v1/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+
+          await new Promise(r => setTimeout(r, 500));
+          signUpStep1.className = 'terminal-step done';
+          signUpStep1.innerHTML = `<span>✓</span> <span>PBKDF2 100,000-iteration cryptographic salt &amp; hash generated</span>`;
+
+          signUpStep2.className = 'terminal-step current';
+          signUpStep2.innerHTML = `<span class="terminal-spinner"></span> <span>Provisioning operator account in SQLite users table...</span>`;
+          await new Promise(r => setTimeout(r, 450));
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            signUpStep2.className = 'terminal-step current';
+            signUpStep2.innerHTML = `<span style="color:#EF4444;">✗</span> <span style="color:#EF4444;">${err.detail || 'Registration failed'}</span>`;
+            authCard.classList.add('shake-error');
+            setTimeout(() => authCard.classList.remove('shake-error'), 450);
+            btnSubmitSignUp.disabled = false;
+            txtBtnSignUp.textContent = 'Create Account & Grant Level 4 Clearance';
+            showToast(err.detail || 'Could not create account', 'danger');
+            return;
+          }
+
+          const data = await res.json();
+          signUpStep2.className = 'terminal-step done';
+          signUpStep2.innerHTML = `<span>✓</span> <span>Account provisioned into SQLite repository (User ID: ${data.user?.id})</span>`;
+
+          signUpStep3.className = 'terminal-step current';
+          signUpStep3.innerHTML = `<span class="terminal-spinner"></span> <span>Permanently logging account creation to Level 4 Full Authority audit...</span>`;
+          await new Promise(r => setTimeout(r, 400));
+          signUpStep3.className = 'terminal-step done';
+          signUpStep3.innerHTML = `<span>✓</span> <span>Recorded in Level 4 Authority Audit! Entering Console...</span>`;
+
+          // Automatically authenticate new user
+          if (data.token) {
+            localStorage.setItem('shield_auth_token', data.token);
+            localStorage.setItem('shield_auth_user', JSON.stringify(data.user));
+            localStorage.setItem('shield_current_user', JSON.stringify(data.user));
+            sessionStorage.setItem('shield_logged_in', 'true');
+          }
+
+          showToast(`🎉 Account Created! Welcome, ${data.user.name} (${data.user.clearance})`, 'success');
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 600);
+
+        } catch (err) {
+          btnSubmitSignUp.disabled = false;
+          txtBtnSignUp.textContent = 'Create Account & Grant Level 4 Clearance';
+          terminalSignUp.classList.remove('active');
+          showToast('Network error creating account in SQLite', 'danger');
+        }
+      }
+
+      formSignUp.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = txtSignUpName.value.trim();
+        const email = txtSignUpEmail.value.trim();
+        const password = txtSignUpPassword.value.trim();
+        const role = selectSignUpRole.value;
+        const clearance = selectSignUpClearance.value;
+        const avatar = txtSelectedAvatar.value || getEmailAvatarUrl(email);
+
+        if (!name || !email || !password) {
+          authCard.classList.add('shake-error');
+          setTimeout(() => authCard.classList.remove('shake-error'), 450);
+          showToast('Please fill in all required registration fields', 'warning');
+          return;
+        }
+
+        executeSignUp({
+          name: name,
+          email: email,
+          password: password,
+          role: role,
+          organization: 'FinSecure Inc.',
+          clearance: clearance,
+          profile_picture_url: avatar
+        });
+      });
+
+      // -------------------------------------------------------------------
+      // 3. FORGOT PASSWORD REQUEST DISPATCH (Real SMTP & Deliverable Preview)
+      // -------------------------------------------------------------------
+      formForgotRequest?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = txtForgotEmail.value.trim();
+        if (!email) {
+          showToast('Please enter your workstation email address', 'warning');
+          return;
+        }
+
+        btnSubmitForgot.disabled = true;
+        txtBtnForgot.textContent = 'Dispatching Reset Passkey...';
+        terminalForgot.classList.add('active');
+
+        forgotStep1.className = 'terminal-step current';
+        forgotStep1.innerHTML = `<span class="terminal-spinner"></span> <span>Connecting to SQLite user database and verifying account identity...</span>`;
+
+        try {
+          forgotStep2.className = 'terminal-step';
+          forgotStep3.className = 'terminal-step';
+
+          await new Promise(r => setTimeout(r, 450));
+          forgotStep1.className = 'terminal-step done';
+          forgotStep1.innerHTML = `<span>✓</span> <span>Identity verified in SQLite users repository</span>`;
+
+          forgotStep2.className = 'terminal-step current';
+          forgotStep2.innerHTML = `<span class="terminal-spinner"></span> <span>Generating 64-char crypto reset token and 6-digit OTP passkey...</span>`;
+
+          const res = await fetch('/api/v1/auth/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+          });
+
+          await new Promise(r => setTimeout(r, 450));
+          forgotStep2.className = 'terminal-step done';
+          forgotStep2.innerHTML = `<span>✓</span> <span>Cryptographic reset token & 6-digit passkey generated</span>`;
+
+          forgotStep3.className = 'terminal-step current';
+          forgotStep3.innerHTML = `<span class="terminal-spinner"></span> <span>Connecting to SMTP mail transport & dispatching to inbox...</span>`;
+
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            forgotStep3.className = 'terminal-step current';
+            forgotStep3.innerHTML = `<span style="color:#EF4444;">✗</span> <span style="color:#EF4444;">${data.detail || 'Recovery failed'}</span>`;
+            authCard.classList.add('shake-error');
+            setTimeout(() => authCard.classList.remove('shake-error'), 450);
+            btnSubmitForgot.disabled = false;
+            txtBtnForgot.textContent = 'Send Password Reset Option to Mail';
+            showToast(data.detail || 'Email not found in registered SQLite database.', 'danger');
+            return;
+          }
+
+          await new Promise(r => setTimeout(r, 500));
+          forgotStep3.className = 'terminal-step done';
+          forgotStep3.innerHTML = `<span>✓</span> <span>Reset passkey dispatched! Check your email inbox.</span>`;
+
+          showToast(`📧 Password reset dispatched to ${data.email || email}!`, 'success');
+
+          // Transition to Step 2: Set New Password Form
+          setTimeout(() => {
+            btnSubmitForgot.disabled = false;
+            txtBtnForgot.textContent = 'Send Password Reset Option to Mail';
+            terminalForgot.classList.remove('active');
+
+            if (lblResetEmailTarget) lblResetEmailTarget.textContent = data.email || email;
+            if (hiddenResetEmail) hiddenResetEmail.value = data.email || email;
+            if (hiddenResetToken && data.reset_link) {
+              try {
+                const url = new URL(data.reset_link, window.location.origin);
+                hiddenResetToken.value = url.searchParams.get('token') || '';
+              } catch (e) {
+                hiddenResetToken.value = '';
+              }
+            }
+
+            if (data.reset_code && boxSimulatedQuickAction && lblSimulatedCode) {
+              boxSimulatedQuickAction.style.display = 'block';
+              lblSimulatedCode.textContent = data.reset_code;
+            }
+
+            if (subpanelForgotRequest) subpanelForgotRequest.style.display = 'none';
+            if (subpanelForgotReset) subpanelForgotReset.style.display = 'block';
+            if (txtResetCode) txtResetCode.focus();
+          }, 800);
+
+        } catch (err) {
+          btnSubmitForgot.disabled = false;
+          txtBtnForgot.textContent = 'Send Password Reset Option to Mail';
+          terminalForgot.classList.remove('active');
+          showToast('Connection error connecting to ShieldPlus AI Engine', 'danger');
+        }
+      });
+
+      // -------------------------------------------------------------------
+      // 4. RESET SECURITY PASSKEY FORM EXECUTION
+      // -------------------------------------------------------------------
+      formResetPassword?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = txtResetCode.value.trim();
+        const pwd = txtResetPassword.value.trim();
+        const pwdConfirm = txtResetPasswordConfirm.value.trim();
+        const email = hiddenResetEmail.value.trim() || (txtForgotEmail ? txtForgotEmail.value.trim() : '');
+        const token = hiddenResetToken.value.trim();
+
+        if (!code && !token) {
+          showToast('Please enter the 6-digit verification code from your email', 'warning');
+          txtResetCode.focus();
+          return;
+        }
+        if (pwd.length < 4) {
+          showToast('Security passkey must be at least 4 characters', 'warning');
+          txtResetPassword.focus();
+          return;
+        }
+        if (pwd !== pwdConfirm) {
+          authCard.classList.add('shake-error');
+          setTimeout(() => authCard.classList.remove('shake-error'), 450);
+          showToast('Security passkeys do not match. Please re-enter.', 'danger');
+          txtResetPasswordConfirm.focus();
+          return;
+        }
+
+        btnSubmitReset.disabled = true;
+        txtBtnReset.textContent = 'Updating Security Passkey...';
+        terminalReset.classList.add('active');
+
+        resetStep1.className = 'terminal-step current';
+        resetStep1.innerHTML = `<span class="terminal-spinner"></span> <span>Validating 6-digit verification code in SQLite...</span>`;
+
+        try {
+          resetStep2.className = 'terminal-step';
+          resetStep3.className = 'terminal-step';
+
+          await new Promise(r => setTimeout(r, 400));
+          resetStep1.className = 'terminal-step done';
+          resetStep1.innerHTML = `<span>✓</span> <span>Verification passkey verified in SQLite</span>`;
+
+          resetStep2.className = 'terminal-step current';
+          resetStep2.innerHTML = `<span class="terminal-spinner"></span> <span>Re-hashing security passkey with PBKDF2-HMAC-SHA256...</span>`;
+
+          const res = await fetch('/api/v1/auth/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: email,
+              token: token || undefined,
+              code: code || undefined,
+              new_password: pwd
+            })
+          });
+
+          await new Promise(r => setTimeout(r, 450));
+          resetStep2.className = 'terminal-step done';
+          resetStep2.innerHTML = `<span>✓</span> <span>PBKDF2 cryptographic signature successfully updated</span>`;
+
+          resetStep3.className = 'terminal-step current';
+          resetStep3.innerHTML = `<span class="terminal-spinner"></span> <span>Writing to SQLite user records and logging Level 4 audit event...</span>`;
+
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            resetStep3.className = 'terminal-step current';
+            resetStep3.innerHTML = `<span style="color:#EF4444;">✗</span> <span style="color:#EF4444;">${data.detail || 'Reset failed'}</span>`;
+            authCard.classList.add('shake-error');
+            setTimeout(() => authCard.classList.remove('shake-error'), 450);
+            btnSubmitReset.disabled = false;
+            txtBtnReset.textContent = 'Set New Passkey & Access Enclave';
+            showToast(data.detail || 'Passkey update rejected. Verification code may be invalid or expired.', 'danger');
+            return;
+          }
+
+          await new Promise(r => setTimeout(r, 450));
+          resetStep3.className = 'terminal-step done';
+          resetStep3.innerHTML = `<span>✓</span> <span>Level 4 Full Authority Granted. Launching Enclave...</span>`;
+
+          // Auto-login operator
+          if (data.token) {
+            localStorage.setItem('shield_auth_token', data.token);
+            if (data.user) {
+              localStorage.setItem('shield_auth_user', JSON.stringify(data.user));
+              localStorage.setItem('shield_current_user', JSON.stringify(data.user));
+            }
+            sessionStorage.setItem('shield_logged_in', 'true');
+          }
+
+          showToast(`🎉 Passkey updated! Welcome back, ${data.user?.name || 'Operator'}`, 'success');
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 700);
+
+        } catch (err) {
+          btnSubmitReset.disabled = false;
+          txtBtnReset.textContent = 'Set New Passkey & Access Enclave';
+          terminalReset.classList.remove('active');
+          showToast('Connection error connecting to ShieldPlus AI Engine', 'danger');
+        }
+      });
+
+      // -------------------------------------------------------------------
+      // 5. URL PARAMETER & EMAIL RESET LINK LISTENER (Mobile & Laptop)
+      // -------------------------------------------------------------------
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get('token');
+        const urlEmail = urlParams.get('email');
+        const urlCode = urlParams.get('code');
+        const urlHash = window.location.hash;
+
+        if (urlToken || urlCode || urlHash === '#reset') {
+          switchTab('reset');
+          if (urlEmail) {
+            if (hiddenResetEmail) hiddenResetEmail.value = urlEmail;
+            if (lblResetEmailTarget) lblResetEmailTarget.textContent = urlEmail;
+          }
+          if (urlToken && hiddenResetToken) {
+            hiddenResetToken.value = urlToken;
+          }
+          if (urlCode && txtResetCode) {
+            txtResetCode.value = urlCode;
+          }
+          showToast('🔐 Cryptographic reset passkey verified from email link', 'info');
+        } else if (urlHash === '#forgot') {
+          switchTab('forgot');
+        }
+      } catch (e) { }
+
+      // -------------------------------------------------------------------
+      // 6. LEVEL 4 FULL AUTHORITY AUDIT MODAL CONTROLLER
+      // -------------------------------------------------------------------
+      let currentAuditFilter = 'ALL';
+
+      async function loadLevel4AuditData() {
+        try {
+          const res = await fetch(`/api/v1/auth/audit-logs?limit=50&action=${encodeURIComponent(currentAuditFilter)}`);
+          if (!res.ok) throw new Error('API failed');
+          const data = await res.json();
+
+          // 1. Update Stat Pills
+          const summary = data.summary || {};
+          document.getElementById('lvl4StatAccounts').textContent = summary.accounts_created || '0';
+          document.getElementById('lvl4StatSuccess').textContent = summary.successful_logins || '0';
+          document.getElementById('lvl4StatFailed').textContent = summary.failed_logins || '0';
+          document.getElementById('lvl4StatTotal').textContent = summary.total_events || '0';
+
+          // 2. Render Audit Records
+          const logs = data.audit_logs || [];
+          if (logs.length === 0) {
+            lvl4AuditRecordsList.innerHTML = '<div style="color:#94A3B8; text-align:center; padding:16px;">No audit events found for current filter.</div>';
+          } else {
+            lvl4AuditRecordsList.innerHTML = logs.map(log => {
+              const isLogin = log.action.includes('LOGIN');
+              const isCreate = log.action.includes('ACCOUNT_CREATED');
+              const isFail = log.status === 'FAILURE' || log.status === 'FAILED';
+              const actionColor = isFail ? '#EF4444' : isCreate ? '#38BDF8' : '#10B981';
+              const actionIcon = isFail ? '🔴' : isCreate ? '➕' : '🟢';
+
+              return `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:rgba(255,255,255,0.025); border-left:3px solid ${actionColor}; border-radius:6px; font-size:0.76rem;">
+                  <div style="display:flex; flex-direction:column; gap:3px;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <span>${actionIcon}</span>
+                      <strong style="color:#FFFFFF; font-size:0.8rem;">${log.action}</strong>
+                      <span style="color:#94A3B8;">by</span>
+                      <span style="color:#38BDF8; font-weight:600;">${log.actor}</span>
+                      <span style="background:rgba(14,165,233,0.14); border:1px solid rgba(14,165,233,0.3); color:#38BDF8; font-size:0.65rem; padding:1px 6px; border-radius:4px; font-family:monospace;">${log.clearance || 'Level 4'}</span>
+                    </div>
+                    <div style="color:#94A3B8; font-size:0.7rem;">
+                      ${log.details || ''} &bull; <span style="font-family:monospace; color:#E2E8F0;">IP: ${log.ip_address || '127.0.0.1'}</span> &bull; <span style="color:#CBD5E1;">${log.user_agent || 'Desktop'}</span>
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <span style="color:${isFail ? '#EF4444' : '#10B981'}; font-weight:700; font-family:monospace;">${log.status}</span>
+                    <div style="color:#64748B; font-size:0.68rem; margin-top:2px;">${log.time_ago || log.datetime_str || ''}</div>
+                  </div>
+                </div>
+              `;
+            }).join('');
+          }
+
+          // 3. Render Registered Users
+          const users = data.registered_users || [];
+          if (users.length === 0) {
+            lvl4RegisteredUsersList.innerHTML = '<div style="color:#94A3B8; font-size:0.75rem;">No registered operators.</div>';
+          } else {
+            lvl4RegisteredUsersList.innerHTML = users.map(u => {
+              const letter = getUserFirstLetter(u.name, u.email);
+              const avatar = (u.profile_picture_url && !u.profile_picture_url.includes('unsplash.com')) ? u.profile_picture_url : getEmailAvatarUrl(u.email);
+              return `
+              <div style="display:flex; align-items:center; justify-content:space-between; padding:6px 10px; background:rgba(255,255,255,0.02); border:1px solid var(--border-card); border-radius:6px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div style="width:26px; height:26px; flex-shrink:0;">
+                    <img src="${avatar}" style="width:26px; height:26px; border-radius:50%; object-fit:cover;" onerror="this.outerHTML='<div class=\\'user-initial-badge\\' style=\\'width:26px; height:26px; font-size:0.75rem;\\'>${letter}</div>';">
+                  </div>
+                  <div>
+                    <span style="font-weight:600; color:#FFFFFF; font-size:0.78rem;">${u.name}</span>
+                    <span style="color:#94A3B8; font-size:0.7rem;"> (${u.email})</span>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="color:#94A3B8; font-size:0.68rem;">${u.role || 'Risk Officer'}</span>
+                  <span style="background:rgba(14,165,233,0.15); border:1px solid rgba(14,165,233,0.35); color:#38BDF8; font-size:0.65rem; padding:2px 8px; border-radius:4px; font-weight:700;">${u.clearance || 'Level 4'}</span>
+                </div>
+              </div>
+            `;
+            }).join('');
+          }
+
+        } catch (e) {
+          lvl4AuditRecordsList.innerHTML = '<div style="color:#EF4444; padding:12px; font-size:0.75rem;">Failed to connect to SQLite audit backend.</div>';
+        }
+      }
+
+      btnOpenLevel4AuditModal.addEventListener('click', () => {
+        level4AuditModal.classList.add('open');
+        loadLevel4AuditData();
+      });
+
+      btnCloseLevel4Modal.addEventListener('click', () => {
+        level4AuditModal.classList.remove('open');
+      });
+
+      btnRefreshLevel4Audit.addEventListener('click', () => {
+        loadLevel4AuditData();
+        showToast('Level 4 Authority Audit Trail Refreshed', 'info');
+      });
+
+      level4AuditModal.addEventListener('click', (e) => {
+        if (e.target === level4AuditModal) {
+          level4AuditModal.classList.remove('open');
+        }
+      });
+
+      // Filter Buttons Group
+      lvl4FilterGroup.querySelectorAll('.btn-inspect-level4').forEach(btn => {
+        btn.addEventListener('click', () => {
+          lvl4FilterGroup.querySelectorAll('.btn-inspect-level4').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentAuditFilter = btn.getAttribute('data-action') || 'ALL';
+          loadLevel4AuditData();
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

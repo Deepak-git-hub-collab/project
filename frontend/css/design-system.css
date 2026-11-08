@@ -1,0 +1,386 @@
+﻿/* ==========================================================================
+   TITANIUM-CHARCOAL 3D MODERN FINTECH DESIGN SYSTEM
+   Signature Color: #c5c6c9d3 (Platinum / Titanium Silver Metallic Specular)
+   Foundation: Deep Matte Charcoal Obsidian (#0A0B0E / #121419)
+   Aesthetic: Precision 3D Modernism | Chamfered Specular Edges | Tactile Depths
+   High-Contrast Tabular Precision | Neo-Skeuomorphic Button Physics
+   ========================================================================== */
+
+:root {
+  /* 1. Platinum / Titanium Silver Signature Palette (#c5c6c9 / #c5c6c9d3) */
+  --silver-raw: #C5C6C9;
+  --silver-glow: #c5c6c9d3;
+  --silver-specular: #FFFFFF;
+  --silver-light: #E4E5E8;
+  --silver-base: #C5C6C9;
+  --silver-dim: #999BA2;
+  --silver-dark: #6C6E75;
+
+  /* 2. Deep Charcoal Foundations */
+  --charcoal-black: #08090B;
+  --charcoal-base: #0E1014;
+  --charcoal-surface: #15181F;
+  --charcoal-raised: #1C2029;
+  --charcoal-elevated: #242935;
+  --charcoal-border: #2D3342;
+
+  /* Canvas & Layout Layers */
+  --bg-canvas: #0A0B0E;
+  --bg-sidebar: rgba(14, 16, 21, 0.94);
+  --bg-header: rgba(16, 18, 24, 0.95);
+
+  /* 3D Tactile Card Surfaces */
+  --surface-card: linear-gradient(180deg, #181C24 0%, #111319 100%);
+  --surface-card-hover: linear-gradient(180deg, #20242E 0%, #14171F 100%);
+  --surface-card-subtle: linear-gradient(180deg, #14171E 0%, #0E1015 100%);
+  --surface-raised: linear-gradient(180deg, #252B37 0%, #181C24 100%);
+  --surface-inset: #090A0D;
+
+  /* 3. Modern 3D Bevel & Specular Edge Borders */
+  --border-subtle: rgba(197, 198, 201, 0.1);
+  --border-card: rgba(197, 198, 201, 0.14);
+  --border-card-top: rgba(255, 255, 255, 0.28);
+  --border-card-bottom: rgba(0, 0, 0, 0.85);
+  --border-highlight: rgba(197, 198, 201, 0.45);
+  --border-active: #C5C6C9;
+  --border-silver-glow: rgba(197, 198, 201, 0.6);
+
+  /* 4. Metallic Accents & 3D Tactile Gradients */
+  --accent-primary: #C5C6C9;
+  --accent-secondary: #999BA2;
+  --accent-cyan: #38BDF8;
+  --accent-violet: #A78BFA;
+  --accent-blue: #60A5FA;
+  --accent-gradient: linear-gradient(180deg, #FFFFFF 0%, #E2E3E6 22%, #C5C6C9 65%, #9DA0A6 100%);
+  --accent-gradient-hover: linear-gradient(180deg, #FFFFFF 0%, #EDEDEF 25%, #D4D5D8 65%, #AEB0B6 100%);
+  --accent-gradient-dark: linear-gradient(180deg, #262B37 0%, #15181F 100%);
+  --accent-gradient-subtle: linear-gradient(180deg, rgba(197, 198, 201, 0.18) 0%, rgba(197, 198, 201, 0.04) 100%);
+  --accent-gradient-pill: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(197, 198, 201, 0.08) 50%, rgba(0, 0, 0, 0.3) 100%);
+
+  /* 3D Shadows, Elevations & Tactile Depressions */
+  --glow-primary: 0 0 20px rgba(197, 198, 201, 0.35);
+  --glow-silver: 0 0 24px #c5c6c9d3;
+  --shadow-3d-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.8),
+    0 8px 24px -4px rgba(0, 0, 0, 0.85),
+    0 2px 6px -1px rgba(0, 0, 0, 0.6);
+  --shadow-3d-card-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.9),
+    0 16px 36px -4px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(197, 198, 201, 0.15);
+  --shadow-3d-btn:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 3px 0 #6C6E74,
+    0 6px 14px rgba(0, 0, 0, 0.7),
+    0 0 16px rgba(197, 198, 201, 0.25);
+  --shadow-3d-btn-active:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 1px 0 #6C6E74,
+    0 2px 6px rgba(0, 0, 0, 0.8);
+  --shadow-3d-inset:
+    inset 0 2px 5px rgba(0, 0, 0, 0.85),
+    inset 0 0 0 1px rgba(197, 198, 201, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.05);
+
+  --shadow-card: var(--shadow-3d-card);
+  --shadow-card-hover: var(--shadow-3d-card-hover);
+
+  /* 5. Health & Risk Classification (Tactile 3D Badges) */
+  --color-approved: #10B981;
+  --color-approved-bg: rgba(16, 185, 129, 0.14);
+  --color-approved-border: rgba(16, 185, 129, 0.45);
+  --color-approved-glow: 0 0 16px rgba(16, 185, 129, 0.35);
+
+  --color-flagged: #f59e0b;
+  --color-flagged-bg: rgba(245, 158, 11, 0.14);
+  --color-flagged-border: rgba(245, 158, 11, 0.45);
+  --color-flagged-glow: 0 0 16px rgba(245, 158, 11, 0.35);
+
+  --color-blocked: #f80f0f;
+  --color-blocked-bg: rgba(239, 68, 68, 0.16);
+  --color-blocked-border: rgba(231, 25, 25, 0.5);
+  --color-blocked-glow: 0 0 16px rgba(239, 68, 68, 0.4);
+
+  /* 6. Typography & Text Hierarchy */
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #C5C6C9;
+  --text-muted: #8E9197;
+  --text-dim: #5A5D64;
+
+  /* 7. Rounded Modern Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* 8. Smooth Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-canvas);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(197, 198, 201, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(197, 198, 201, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 50% 85%, rgba(14, 16, 20, 0.95) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3D Modern Chamfered Panel Standard */
+.glass-panel {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-card) !important;
+  border-top: 1px solid var(--border-card-top) !important;
+  border-bottom: 1px solid var(--border-card-bottom) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-3d-card) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.glass-panel:hover {
+  border-color: rgba(197, 198, 201, 0.35) !important;
+  border-top-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: var(--shadow-3d-card-hover) !important;
+}
+
+/* Operational Badges & Triage Flags (3D Pill Depth) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-family: var(--font-mono);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.badge-approved {
+  background: var(--color-approved-bg);
+  color: var(--color-approved);
+  border: 1px solid var(--color-approved-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 10px rgba(16, 185, 129, 0.25);
+}
+
+.badge-flagged,
+.badge-review {
+  background: var(--color-flagged-bg);
+  color: var(--color-flagged);
+  border: 1px solid var(--color-flagged-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
+.badge-blocked {
+  background: var(--color-blocked-bg);
+  color: var(--color-blocked);
+  border: 1px solid var(--color-blocked-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+/* 3D Modern Button & Control Architecture */
+button {
+  font-family: var(--font-main);
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 16px;
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-card);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+  background: var(--accent-gradient-dark);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 8px rgba(0, 0, 0, 0.5);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: linear-gradient(180deg, #2D3342 0%, #1A1D26 100%);
+  border-color: var(--border-highlight);
+  border-top-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 5px 14px rgba(0, 0, 0, 0.65), 0 0 14px rgba(197, 198, 201, 0.15);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.btn-primary {
+  background: var(--accent-gradient) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  color: #0E1013 !important;
+  font-weight: 700 !important;
+  box-shadow: var(--shadow-3d-btn) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.btn-primary:hover {
+  background: var(--accent-gradient-hover) !important;
+  box-shadow: inset 0 1px 0 #FFFFFF, 0 4px 0 #6C6E74, 0 8px 22px rgba(0, 0, 0, 0.75), 0 0 22px #c5c6c9d3 !important;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(2px) !important;
+  box-shadow: var(--shadow-3d-btn-active) !important;
+}
+
+.btn-secondary {
+  background: var(--accent-gradient-dark) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-card) !important;
+  border-top: 1px solid rgba(197, 198, 201, 0.25) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 5px rgba(0, 0, 0, 0.6) !important;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(180deg, #2A303D 0%, #181B23 100%) !important;
+  color: #FFFFFF !important;
+  border-color: var(--border-highlight) !important;
+  border-top-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 10px rgba(0, 0, 0, 0.7), 0 0 12px rgba(197, 198, 201, 0.15) !important;
+}
+
+.btn-danger {
+  background: linear-gradient(180deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 3px 0 #7F1D1D, 0 6px 14px rgba(239, 68, 68, 0.4) !important;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(180deg, #F87171 0%, #EF4444 50%, #DC2626 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 #7F1D1D, 0 8px 18px rgba(239, 68, 68, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.btn-danger:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #7F1D1D, 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+.btn-success {
+  background: linear-gradient(180deg, #10B981 0%, #059669 50%, #047857 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 3px 0 #064E3B, 0 6px 14px rgba(16, 185, 129, 0.4) !important;
+}
+
+.btn-success:hover {
+  background: linear-gradient(180deg, #34D399 0%, #10B981 50%, #059669 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 #064E3B, 0 8px 18px rgba(16, 185, 129, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.btn-success:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #064E3B, 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Tabular Numerals for Numerical & Financial Data */
+.mono {
+  font-family: var(--font-mono) !important;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Sleek Titanium Charcoal Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0D11;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(197, 198, 201, 0.25);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C5C6C9;
+  box-shadow: 0 0 10px #c5c6c9d3;
+}
+
+/* Operator Monogram Badge (3D Metallic Coin) */
+.user-initial-badge {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--accent-gradient);
+  color: #0E1013;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  line-height: 1;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 1px 0 #FFFFFF, 0 3px 6px rgba(0, 0, 0, 0.6), 0 0 14px rgba(197, 198, 201, 0.35);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.user-initial-badge.anon {
+  background: linear-gradient(180deg, #242935 0%, #15181F 100%);
+  border-color: rgba(197, 198, 201, 0.25);
+  color: var(--text-secondary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0, 0, 0, 0.5);
+}

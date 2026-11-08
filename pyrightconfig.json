@@ -1,0 +1,22 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "extraPaths": [
+    ".",
+    ".venv/Lib/site-packages",
+    "backend"
+  ],
+  "pythonVersion": "3.11",
+  "pythonPlatform": "Windows",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": [
+        ".",
+        ".venv/Lib/site-packages",
+        "backend"
+      ]
+    }
+  ]
+}
+
