@@ -9,11 +9,11 @@ import { InvestigationModal } from './investigation-modal.js?v=14.0';
 import { SimulatorControls } from './simulator-controls.js?v=14.0';
 import { ActivityChart, DonutChart } from './activity-chart.js?v=14.0';
 
-// Universal API Base resolution for standalone (port 5500, 3000) or integrated (port 8000) hosting
+// Universal API Base resolution: relative in production/integrated hosting, port 8000 only for Live Server dev
 const API_BASE = (() => {
   if (typeof window === 'undefined') return '';
   const port = window.location.port;
-  if (port && port !== '8000') {
+  if (port === '5500' || port === '3000') {
     return `${window.location.protocol}//${window.location.hostname || '127.0.0.1'}:8000`;
   }
   return '';

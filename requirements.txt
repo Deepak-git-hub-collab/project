@@ -1,0 +1,13 @@
+# Production Dependencies for ShieldPlus AI
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9.0
+scikit-learn>=1.5.0
+numpy>=1.26.0
+scipy>=1.14.0
+joblib>=1.4.0
+websockets>=13.0
+aiofiles>=24.1.0
+requests>=2.32.0
+python-dotenv>=1.0.1
+pyyaml>=6.0.2

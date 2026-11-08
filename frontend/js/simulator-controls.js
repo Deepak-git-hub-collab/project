@@ -4,7 +4,7 @@
 const API_BASE = (() => {
   if (typeof window === 'undefined') return '';
   const port = window.location.port;
-  if (port && port !== '8000') {
+  if (port === '5500' || port === '3000') {
     return `${window.location.protocol}//${window.location.hostname || '127.0.0.1'}:8000`;
   }
   return '';

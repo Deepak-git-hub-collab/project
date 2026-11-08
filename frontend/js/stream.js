@@ -106,7 +106,7 @@ export class StreamManager {
   connect() {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     let host = window.location.host || '127.0.0.1:8000';
-    if (window.location.port && window.location.port !== '8000') {
+    if (window.location.port === '5500' || window.location.port === '3000') {
       host = `${window.location.hostname || '127.0.0.1'}:8000`;
     }
     const wsUrl = `${protocol}//${host}/ws/stream`;
